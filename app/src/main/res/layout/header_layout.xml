@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:gravity="center"
+    android:background="@color/primary_dark"
+    android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom">
+
+        <TextView
+            android:id="@+id/tv_weather_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="18dp"
+            android:text="某某市"
+            android:textColor="@color/primary_text"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_weather_refresh_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2017-3-21 17:00发布"
+                android:textColor="@color/secondary_text"
+                android:textSize="12sp" />
+        </LinearLayout>
+        >
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="0dp">
+
+        <TextView
+            android:id="@+id/tv_weather_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="18dp"
+            android:text="多云"
+            android:textColor="@color/primary_text"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_weather_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="18dp"
+            android:text="-18°"
+            android:textColor="@color/primary_text"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:paddingTop="0dp">
+
+
+        <TextView
+            android:id="@+id/tv_weather_wind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="18dp"
+            android:text="东北风"
+            android:textColor="@color/primary_text"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_weather_wind_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="8级"
+            android:textColor="@color/primary_text"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_weather_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="25dp"
+            android:text="湿度"
+            android:textColor="@color/primary_text"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_weather_humidity_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="60%"
+            android:textColor="@color/primary_text"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="18dp"
+        android:paddingTop="0dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="预报："
+                android:textColor="@color/primary_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_weather_today"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015-11-12 周三"
+                android:textColor="@color/primary_text" />
+
+            <TextView
+                android:id="@+id/tv_weather_second_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015-11-12 周三"
+                android:textColor="@color/primary_text" />
+
+            <TextView
+                android:id="@+id/tv_weather_third_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015-11-12 周三"
+                android:textColor="@color/primary_text" />
+
+            <TextView
+                android:id="@+id/tv_weather_forth_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015-11-12 周三"
+                android:textColor="@color/primary_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="30dp">
+
+            <TextView
+                android:id="@+id/tv_weather_today_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-15°/15°"
+                android:textColor="@color/primary_text" />
+
+            <TextView
+                android:id="@+id/tv_weather_second_day_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-15°/15°"
+                android:textColor="@color/primary_text" />
+
+            <TextView
+                android:id="@+id/tv_weather_third_day_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-15°/15°"
+                android:textColor="@color/primary_text" />
+
+            <TextView
+                android:id="@+id/tv_weather_forth_day_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-15°/15°"
+                android:textColor="@color/primary_text" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

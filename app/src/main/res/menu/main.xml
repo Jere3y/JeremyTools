@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="功能">
+        <menu>
+            <item
+                android:id="@+id/item_way"
+                android:icon="@mipmap/ic_item_way"
+                android:title="路线" />
+            <item
+                android:id="@+id/item_read"
+                android:icon="@mipmap/ic_nav_item_reader"
+                android:title="阅读" />
+            <item
+                android:id="@+id/item_blog"
+                android:icon="@mipmap/ic_nav_item_blog"
+                android:title="博客" />
+        </menu>
+    </item>
+    <item android:title="系统">
+        <menu>
+            <item
+                android:id="@+id/item_about"
+                android:icon="@mipmap/ic_nav_item_setting"
+                android:title="设置" />
+            <item
+                android:id="@+id/item_exit"
+                android:icon="@mipmap/ic_nav_item_exit"
+                android:title="退出" />
+        </menu>
+
+    </item>
+
+</menu>

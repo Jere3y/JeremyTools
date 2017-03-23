@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">便捷神器</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="Complete">完成查询</string>
+    <string name="Error">查询失败</string>
+    <string name="Upload">不知道是啥</string>
+</resources>
