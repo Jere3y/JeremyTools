@@ -22,7 +22,7 @@
         </activity>
         <activity android:name=".activity.SelectFromAmapActivity"/>
         <activity android:name=".activity.ReadActivity" />
-
+        <activity android:name=".activity.CodeActivity" />
         <service android:name="com.amap.api.location.APSService" />
     </application>
 

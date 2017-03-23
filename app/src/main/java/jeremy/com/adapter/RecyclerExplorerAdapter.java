@@ -2,6 +2,7 @@ package jeremy.com.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -45,7 +46,8 @@ public class RecyclerExplorerAdapter extends RecyclerView.Adapter<RecyclerExplor
 
     @Override
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyHolder(View.inflate(context, R.layout.rececler_explorer_item, null));
+        return new MyHolder(LayoutInflater.from(context).inflate(R.layout.rececler_explorer_item, parent, false));
+
     }
 
     @Override

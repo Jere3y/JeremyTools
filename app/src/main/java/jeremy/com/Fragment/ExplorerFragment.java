@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.File;
@@ -22,9 +23,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import jeremy.com.R;
+import jeremy.com.activity.CodeActivity;
 import jeremy.com.activity.ReadActivity;
 import jeremy.com.adapter.RecyclerExplorerAdapter;
 import jeremy.com.bean.FileInfo;
+import jeremy.com.utils.ToastUtil;
 
 /**
  * 这个是文件浏览的Fragment
@@ -42,23 +45,23 @@ public class ExplorerFragment extends Fragment {
     private String currentPath;
     private RecyclerExplorerAdapter explorerAdapter;
     private Intent intent;
+    private Button bn_back;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view;
         view = inflater.inflate(R.layout.fragment_explorer, container, false);
-        findView(view);
+        initView(view);
         intent = new Intent();
         rootFile = Environment.getExternalStorageDirectory();
         if (rootFile != null) {
             rootPath = rootFile.getPath();
+            currentPath = rootPath;
         }
 
 
-        updateFileInfoList(rootPath);
-        //先按照文件名排序
-        Collections.sort(fileInfoList, new MyFileComparator());
+        updateFileInfoList();
 
         explorerAdapter = new RecyclerExplorerAdapter(getContext(), fileInfoList);
         explorerAdapter.setOnItemClickListener(new RecyclerExplorerAdapter.OnItemClickListener() {
@@ -68,10 +71,12 @@ public class ExplorerFragment extends Fragment {
                 String name = fileInfo.getName();
                 if (fileInfo.isDir()) {
                     currentPath = fileInfo.getPath();
-                    updateFileInfoList(currentPath);
+                    updateFileInfoList();
                     explorerAdapter.notifyDataSetChanged();
                 } else if (name.endsWith(".java")) {
-
+                    intent.setData(Uri.parse(fileInfo.getPath()));
+                    intent.setClass(getActivity(), CodeActivity.class);
+                    startActivity(intent);
                 } else if (name.endsWith(".txt")) {
                     intent.setData(Uri.parse(fileInfo.getPath()));
                     intent.setClass(getActivity(), ReadActivity.class);
@@ -96,12 +101,24 @@ public class ExplorerFragment extends Fragment {
         return view;
     }
 
-    private void findView(View view) {
+    private void initView(View view) {
         tv_show_location = (TextView) view.findViewById(R.id.tv_show_location);
         rv_file_explorer = (RecyclerView) view.findViewById(R.id.rv_file_explorer);
+        view.findViewById(R.id.bn_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentPath.equals(rootPath)) {
+                    ToastUtil.showShort(getContext(), "已经是根目录了，不能再向上了");
+                    return;
+                }
+                currentPath = new File(currentPath).getParentFile().getPath();
+                updateFileInfoList();
+                explorerAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
-    private void updateFileInfoList(String currentPath) {
+    private void updateFileInfoList() {
 
         tv_show_location.setText(currentPath);
         if (currentPath != null) {
@@ -122,6 +139,7 @@ public class ExplorerFragment extends Fragment {
                 }
             }
         }
+        Collections.sort(fileInfoList, new MyFileComparator());
 
     }
 
