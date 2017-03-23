@@ -46,8 +46,6 @@ public class MyLocationUtil {
     }
 
 
-    private double latitude;
-
     private MyLocationUtil(Context context, AbsLocationFragment myLocationListener) {
         this.context = context;
         this.myLocationListener = myLocationListener;
@@ -67,6 +65,7 @@ public class MyLocationUtil {
         //返回地里位置信息
         mLocationOption.setNeedAddress(true);
         mLocationOption.setOnceLocationLatest(true);
+        mLocationOption.setHttpTimeOut(3500);
 //        mLocationOption.setInterval(3000);
         //设置定位回调监听
         mLocationClient.setLocationListener(myLocationListener);

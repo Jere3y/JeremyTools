@@ -29,6 +29,8 @@ import com.dd.CircularProgressButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import jeremy.com.R;
 import jeremy.com.bean.BusLineTotalInfo;
@@ -44,7 +46,12 @@ import jeremy.com.utils.ToastUtil;
  */
 
 public class LocationFragment extends AbsLocationFragment implements RouteSearch.OnRouteSearchListener {
+
+    private static final int BUS_ROUTE_SUCCESS = 1;
+    private static final int BUS_ROUTE_FAIL = -1;
+    private static final int LOCATION_FAIL = 884;
     private final String TAG = "LocationFragment";
+
     private TextView tv_show_location;
 
     RouteSearch routeSearch;
@@ -71,14 +78,21 @@ public class LocationFragment extends AbsLocationFragment implements RouteSearch
 
     private MyLocationUtil myLocationUtil;
 
-    Handler handler = new Handler() {
+    private Timer timer;
+    private CircularProgressButton bn_go_home;
+    private CircularProgressButton bn_go_to_work;
+    private CircularProgressButton bn_go_to_anywhere;
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            if (LOCATION_FAIL == msg.what) {
+                myLocationUtil.destroyLocation();
+                tv_show_location.setText("定位失败,请点击重试！");
+            }
             super.handleMessage(msg);
-            mButton.setProgress(0);
+
         }
     };
-
 
     @Nullable
     @Override
@@ -105,29 +119,26 @@ public class LocationFragment extends AbsLocationFragment implements RouteSearch
         tv_show_location = (TextView) view.findViewById(R.id.tv_show_location);
         rv_way_to_anywhere = (RecyclerView) view.findViewById(R.id.rv_way_to_anywhere);
 
-        final CircularProgressButton bn_go_home = (CircularProgressButton) view.findViewById(R.id.bn_go_home);
-        final CircularProgressButton bn_go_to_work = (CircularProgressButton) view.findViewById(R.id.bn_go_to_work);
-        final CircularProgressButton bn_go_to_anywhere = (CircularProgressButton) view.findViewById(R.id.bn_go_to_anywhere);
+        bn_go_home = (CircularProgressButton) view.findViewById(R.id.bn_go_home);
+        bn_go_to_work = (CircularProgressButton) view.findViewById(R.id.bn_go_to_work);
+        bn_go_to_anywhere = (CircularProgressButton) view.findViewById(R.id.bn_go_to_anywhere);
 
 
         bn_go_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mButton = bn_go_home;
                 goHome();
             }
         });
         bn_go_to_work.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mButton = bn_go_to_work;
                 goWork();
             }
         });
         bn_go_to_anywhere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mButton = bn_go_to_anywhere;
                 goAnywhere();
             }
         });
@@ -141,15 +152,6 @@ public class LocationFragment extends AbsLocationFragment implements RouteSearch
         });
     }
 
-    /**
-     * @param savedInstanceState savedInstanceState
-     */
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
 
     @Override
     public void onResume() {
@@ -160,11 +162,27 @@ public class LocationFragment extends AbsLocationFragment implements RouteSearch
     private void findMyLocation() {
         tv_show_location.setText("刷新位置中...");
         myLocationUtil.findMyLocation();
+        timer = new Timer();
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //time out停止定位
+                handler.sendEmptyMessage(LOCATION_FAIL);
+            }
+        }, 4000);
+
 
     }
 
     private void goHome() {
-        Log.d(TAG, "bn_go_home");
+        mButton = bn_go_home;
+        if (bn_go_to_anywhere.getProgress() != 0) {
+            bn_go_to_anywhere.setProgress(0);
+        }
+        if (bn_go_to_work.getProgress() != 0) {
+            bn_go_to_work.setProgress(0);
+        }
         //从sp中拿出存储的家的地址经纬度。因为sp中不能存放double类型，所以用string类型存储
         //根据经纬度，执行查询
         doQuery(SpUtil.HOME_LATITUDE, SpUtil.HOME_LONGITUDE);
@@ -172,10 +190,24 @@ public class LocationFragment extends AbsLocationFragment implements RouteSearch
     }
 
     private void goWork() {
+        mButton = bn_go_to_work;
+        if (bn_go_home.getProgress() != 0) {
+            bn_go_home.setProgress(0);
+        }
+        if (bn_go_to_anywhere.getProgress() != 0) {
+            bn_go_to_anywhere.setProgress(0);
+        }
         doQuery(SpUtil.WORK_LATITUDE, SpUtil.WORK_LONGITUDE);
     }
 
     private void goAnywhere() {
+        mButton = bn_go_to_anywhere;
+        if (bn_go_home.getProgress() != 0) {
+            bn_go_home.setProgress(0);
+        }
+        if (bn_go_to_work.getProgress() != 0) {
+            bn_go_to_work.setProgress(0);
+        }
         doQuery(SpUtil.OTHER_LATITUDE, SpUtil.OTHER_LONGITUDE);
     }
 
@@ -187,7 +219,7 @@ public class LocationFragment extends AbsLocationFragment implements RouteSearch
      */
     private void doQuery(String latitudeKey, String longitudeKey) {
         mButton.setIndeterminateProgressMode(true);
-        mButton.setProgress(0);
+        mButton.setProgress(10);
         String latitude = SpUtil.getString(getContext(), latitudeKey, "");
         String longitude = SpUtil.getString(getContext(), longitudeKey, "");
         //只有两个经纬度不是空的时候才执行查询，空则提示用户设置位置
@@ -197,7 +229,6 @@ public class LocationFragment extends AbsLocationFragment implements RouteSearch
                 RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(from, to);
                 RouteSearch.BusRouteQuery query = new RouteSearch.BusRouteQuery(fromAndTo, BUS_DEFAULT, currentCity, 0);
                 routeSearch.calculateBusRouteAsyn(query);//开始规划路径
-                mButton.setProgress(20);
             } else {
                 setProgressError();
                 ToastUtil.showLong(getContext(), "请耐心等待定位完成！！！");
@@ -226,49 +257,6 @@ public class LocationFragment extends AbsLocationFragment implements RouteSearch
             }
         } else {
             setProgressError();
-        }
-    }
-
-    /**
-     * 定位成功后，回调的方法
-     *
-     * @param amapLocation 定位成功后，返回的所有位置信息
-     */
-    @Override
-    public void onLocationChanged(AMapLocation amapLocation) {
-        if (amapLocation != null) {
-            if (amapLocation.getErrorCode() == 0) {
-
-                //获取纬度
-                currentLatitude = amapLocation.getLatitude();
-                //获取经度
-                currentLongitude = amapLocation.getLongitude();
-                //城区信息
-                currentDistrict = amapLocation.getDistrict();
-                //街道信息
-                currentStreet = amapLocation.getStreet();
-                //街道门牌号信息
-                currentStreetNum = amapLocation.getStreetNum();
-                //城市信息
-                currentCity = amapLocation.getCity();
-                tv_show_location.setText(currentDistrict + currentStreet + currentStreetNum);
-                SpUtil.putString(getContext(), SpUtil.CURRENT_CITY, currentCity);
-                from = new LatLonPoint(currentLatitude, currentLongitude);
-                Log.d("定位成功", "from:" + from);
-                //amapLocation.getAccuracy();//获取精度信息
-                //amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
-                //amapLocation.getCountry();//国家信息
-                //amapLocation.getProvince();//省信息
-                //amapLocation.getCityCode();//城市编码
-                //amapLocation.getAdCode();//地区编码
-                //amapLocation.getAoiName();//获取当前定位点的AOI信息
-                //amapLocation.getBuildingId();//获取当前室内定位的建筑物Id
-                //amapLocation.getFloor();//获取当前室内定位的楼层
-            } else {
-                Log.e("AmapError", "location Error, ErrCode:"
-                        + amapLocation.getErrorCode() + ", errInfo:"
-                        + amapLocation.getErrorInfo());
-            }
         }
     }
 
@@ -347,7 +335,6 @@ public class LocationFragment extends AbsLocationFragment implements RouteSearch
 
 
         } else {
-            setProgressError();
             busLineTotalInfoList.clear();
             ToastUtil.showShort(getContext(), "没有找到回去的公交路线");
         }
@@ -357,13 +344,10 @@ public class LocationFragment extends AbsLocationFragment implements RouteSearch
 
     private void setProgressComplete() {
         mButton.setProgress(100);
-        handler.sendEmptyMessageDelayed(0, 1000);
     }
 
     private void setProgressError() {
         mButton.setProgress(-1);
-
-        handler.sendEmptyMessageDelayed(0, 1000);
 
 
     }
@@ -422,6 +406,50 @@ public class LocationFragment extends AbsLocationFragment implements RouteSearch
         }
 
     }
+
+    /**
+     * 定位成功后，回调的方法
+     *
+     * @param amapLocation 定位成功后，返回的所有位置信息
+     */
+    @Override
+    public void onLocationChanged(AMapLocation amapLocation) {
+        if (amapLocation != null) {
+            if (amapLocation.getErrorCode() == 0) {
+                timer.cancel();
+                //获取纬度
+                currentLatitude = amapLocation.getLatitude();
+                //获取经度
+                currentLongitude = amapLocation.getLongitude();
+                //城区信息
+                currentDistrict = amapLocation.getDistrict();
+                //街道信息
+                currentStreet = amapLocation.getStreet();
+                //街道门牌号信息
+                currentStreetNum = amapLocation.getStreetNum();
+                //城市信息
+                currentCity = amapLocation.getCity();
+                tv_show_location.setText(currentDistrict + currentStreet + currentStreetNum);
+                SpUtil.putString(getContext(), SpUtil.CURRENT_CITY, currentCity);
+                from = new LatLonPoint(currentLatitude, currentLongitude);
+                Log.d("定位成功", "from:" + from);
+                //amapLocation.getAccuracy();//获取精度信息
+                //amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                //amapLocation.getCountry();//国家信息
+                //amapLocation.getProvince();//省信息
+                //amapLocation.getCityCode();//城市编码
+                //amapLocation.getAdCode();//地区编码
+                //amapLocation.getAoiName();//获取当前定位点的AOI信息
+                //amapLocation.getBuildingId();//获取当前室内定位的建筑物Id
+                //amapLocation.getFloor();//获取当前室内定位的楼层
+            } else {
+                Log.e("AmapError", "location Error, ErrCode:"
+                        + amapLocation.getErrorCode() + ", errInfo:"
+                        + amapLocation.getErrorInfo());
+            }
+        }
+    }
+
 
     @Override
     public void onDriveRouteSearched(DriveRouteResult driveRouteResult, int i) {

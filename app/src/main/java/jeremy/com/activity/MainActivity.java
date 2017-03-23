@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.amap.api.services.weather.LocalDayWeatherForecast;
+import com.amap.api.services.weather.LocalWeatherForecast;
 import com.amap.api.services.weather.LocalWeatherForecastResult;
 import com.amap.api.services.weather.LocalWeatherLive;
 import com.amap.api.services.weather.LocalWeatherLiveResult;
@@ -72,20 +74,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView tv_weather_temp;
     private TextView tv_weather_wind;
     private TextView tv_weather_wind_level;
-    private TextView tv_weather_humidity;
     private TextView tv_weather_humidity_level;
-    private TextView tv_weather_today;
-    private TextView tv_weather_second_day;
-    private TextView tv_weather_third_day;
-    private TextView tv_weather_forth_day;
-    private TextView tv_weather_today_temp;
-    private TextView tv_weather_second_day_temp;
-    private TextView tv_weather_third_day_temp;
-    private TextView tv_weather_forth_day_temp;
-
-
     private ContextMenuDialogFragment mMenuDialogFragment;
     private String currentCity;
+    private List<TextView> weatherTextList;
+    private WeatherSearchQuery queryLive;
+
 
     //声明定位回调监听器
     //public AMapLocationListener mLocationListener = new AMapLocationListener();
@@ -143,9 +137,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        mMenuDialogFragment.setItemLongClickListener(this);
     }
 // TODO: 2017/3/21 0021 应该增加天气刷新功能，天气预报功能
-
-
-
 
 
     @Override
@@ -298,27 +289,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tv_weather_temp = (TextView) headerView.findViewById(R.id.tv_weather_temp);
         tv_weather_wind = (TextView) headerView.findViewById(R.id.tv_weather_wind);
         tv_weather_wind_level = (TextView) headerView.findViewById(R.id.tv_weather_wind_level);
-        tv_weather_humidity = (TextView) headerView.findViewById(R.id.tv_weather_humidity);
         tv_weather_humidity_level = (TextView) headerView.findViewById(R.id.tv_weather_humidity_level);
-        tv_weather_today = (TextView) headerView.findViewById(R.id.tv_weather_today);
-        tv_weather_second_day = (TextView) headerView.findViewById(R.id.tv_weather_second_day);
-        tv_weather_third_day = (TextView) headerView.findViewById(R.id.tv_weather_third_day);
-        tv_weather_forth_day = (TextView) headerView.findViewById(R.id.tv_weather_forth_day);
-        tv_weather_today_temp = (TextView) headerView.findViewById(R.id.tv_weather_today_temp);
-        tv_weather_second_day_temp = (TextView) headerView.findViewById(R.id.tv_weather_second_day_temp);
-        tv_weather_third_day_temp = (TextView) headerView.findViewById(R.id.tv_weather_third_day_temp);
-        tv_weather_forth_day_temp = (TextView) headerView.findViewById(R.id.tv_weather_forth_day_temp);
+        headerView.findViewById(R.id.ll_header_main).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                queryWeather();
+                tv_weather_refresh_time.setText("刷新天气中...");
+            }
+        });
+        //下面是预报天气控件
+        TextView tv_weather_today = (TextView) headerView.findViewById(R.id.tv_weather_today);
+        TextView tv_weather_second_day = (TextView) headerView.findViewById(R.id.tv_weather_second_day);
+        TextView tv_weather_third_day = (TextView) headerView.findViewById(R.id.tv_weather_third_day);
+        TextView tv_weather_forth_day = (TextView) headerView.findViewById(R.id.tv_weather_forth_day);
+        weatherTextList = new ArrayList<>();
+        weatherTextList.add(tv_weather_today);
+        weatherTextList.add(tv_weather_second_day);
+        weatherTextList.add(tv_weather_third_day);
+        weatherTextList.add(tv_weather_forth_day);
+
         currentCity = SpUtil.getString(this, SpUtil.CURRENT_CITY, "北京");
         tv_weather_city.setText(currentCity);
-        WeatherSearchQuery queryLive;
 
-        queryLive = new WeatherSearchQuery(currentCity, WeatherSearchQuery.WEATHER_TYPE_LIVE);
         mweathersearch = new WeatherSearch(this);
         mweathersearch.setOnWeatherSearchListener(this);
+        queryWeather();
+
+    }
+
+    private void queryWeather() {
+        if (queryLive == null) {
+            queryLive = new WeatherSearchQuery(currentCity, WeatherSearchQuery.WEATHER_TYPE_LIVE);
+        }
         mweathersearch.setQuery(queryLive);
         mweathersearch.searchWeatherAsyn();
-
-
     }
 
 
@@ -339,7 +343,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 tv_weather_temp.setText(weatherlive.getTemperature() + "℃");
                 tv_weather_wind.setText(weatherlive.getWindDirection() + "风");
                 tv_weather_wind_level.setText(weatherlive.getWindPower() + "级");
-//                tv_weather_humidity.setText("湿度");
                 tv_weather_humidity_level.setText(weatherlive.getHumidity() + "%");
 
                 mweathersearch.setQuery(new WeatherSearchQuery(currentCity,
@@ -359,6 +362,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onWeatherForecastSearched(LocalWeatherForecastResult localWeatherForecastResult, int rCode) {
         Log.d(TAG, "预报天气的回调: " + rCode);
         if (1000 == rCode) {
+            if (localWeatherForecastResult != null && localWeatherForecastResult.getForecastResult() != null) {
+                LocalWeatherForecast forecastResult = localWeatherForecastResult.getForecastResult();
+                List<LocalDayWeatherForecast> weatherForecast = forecastResult.getWeatherForecast();
+                int size = weatherForecast.size();
+                if (size == 4) {
+                    for (int i = 0; i < size; i++) {
+                        LocalDayWeatherForecast weather = weatherForecast.get(i);
+                        String date = weather.getDate();
+                        String week = weather.getWeek();
+                        String dayTemp = weather.getDayTemp();
+                        String nightTemp = weather.getNightTemp();
+                        String dayWeather = weather.getDayWeather();
+                        String nightWeather = weather.getNightWeather();
+                        if (week.equals("1")) {
+                            week = "一";
+                        } else if (week.equals("2")) {
+                            week = "二";
+                        } else if (week.equals("3")) {
+                            week = "三";
+                        } else if (week.equals("4")) {
+                            week = "四";
+                        } else if (week.equals("5")) {
+                            week = "五";
+                        } else if (week.equals("6")) {
+                            week = "六";
+                        } else if (week.equals("7")) {
+                            week = "日";
+                        }
+                        String formatStr = date + " " + "周" + week + "   " + dayTemp + "/" + nightTemp + "   " + dayWeather + "/" + nightWeather;
+                        weatherTextList.get(i).setText(formatStr);
+                    }
+                }
+
+            }
         }
     }
 

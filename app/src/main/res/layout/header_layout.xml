@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
+    android:id="@+id/ll_header_main"
     android:gravity="center"
     android:background="@color/primary_dark"
     android:orientation="vertical"
@@ -126,72 +127,37 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_weather_today"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="2015-11-12 周三"
-                android:textColor="@color/primary_text" />
+                android:textColor="@color/secondary_text" />
 
             <TextView
                 android:id="@+id/tv_weather_second_day"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="2015-11-12 周三"
-                android:textColor="@color/primary_text" />
+                android:textColor="@color/secondary_text" />
 
             <TextView
                 android:id="@+id/tv_weather_third_day"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="2015-11-12 周三"
-                android:textColor="@color/primary_text" />
+                android:textColor="@color/secondary_text" />
 
             <TextView
                 android:id="@+id/tv_weather_forth_day"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="2015-11-12 周三"
-                android:textColor="@color/primary_text" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="30dp">
-
-            <TextView
-                android:id="@+id/tv_weather_today_temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-15°/15°"
-                android:textColor="@color/primary_text" />
-
-            <TextView
-                android:id="@+id/tv_weather_second_day_temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-15°/15°"
-                android:textColor="@color/primary_text" />
-
-            <TextView
-                android:id="@+id/tv_weather_third_day_temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-15°/15°"
-                android:textColor="@color/primary_text" />
-
-            <TextView
-                android:id="@+id/tv_weather_forth_day_temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-15°/15°"
-                android:textColor="@color/primary_text" />
+                android:textColor="@color/secondary_text" />
         </LinearLayout>
     </LinearLayout>
 

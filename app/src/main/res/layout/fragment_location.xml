@@ -38,10 +38,10 @@
         android:paddingBottom="5dp">
 
         <com.dd.CircularProgressButton
-            app:cpb_cornerRadius="48dp"
+            app:cpb_cornerRadius="20dp"
             android:id="@+id/bn_go_home"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:layout_marginTop="16dp"
             android:textColor="@color/primary_text"
@@ -51,10 +51,10 @@
             app:cpb_textIdle="回家" />
 
         <com.dd.CircularProgressButton
-            app:cpb_cornerRadius="48dp"
+            app:cpb_cornerRadius="20dp"
             android:id="@+id/bn_go_to_work"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:layout_marginTop="16dp"
             android:textColor="@color/primary_text"
@@ -64,10 +64,10 @@
             app:cpb_textIdle="上班" />
 
         <com.dd.CircularProgressButton
-            app:cpb_cornerRadius="48dp"
+            app:cpb_cornerRadius="20dp"
             android:id="@+id/bn_go_to_anywhere"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="48dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:textColor="@color/primary_text"
