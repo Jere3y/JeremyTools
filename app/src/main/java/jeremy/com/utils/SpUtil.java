@@ -26,6 +26,7 @@ public class SpUtil {
     public static final String WORK_LONGITUDE = "work_longitude";
     public static final String OTHER_LONGITUDE = "other_longitude";
     public static final String CURRENT_CITY = "current_city";
+    public static final String FONT_SIZE = "font_size";
 
     private static SharedPreferences sp;
 
@@ -55,5 +56,16 @@ public class SpUtil {
         getSp(context);
         return sp.getFloat(key, defValue);
     }
+
+    public static int getInt(Context context, String key, int defValue) {
+        getSp(context);
+        return sp.getInt(key, defValue);
+    }
+
+    public static void putInt(Context context, String key, int value) {
+        getSp(context);
+        sp.edit().putInt(key, value).apply();
+    }
+
 
 }

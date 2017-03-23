@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.WindowManager;
 
 import jeremy.com.R;
+import jeremy.com.utils.SpUtil;
 
 
 public class ReadView extends View {
+    private static final String TAG = "ReadView";
     private Bitmap mCurrentPageBitmap;
     private Canvas mCurrentPageCanvas;
     private PageFactory pagefactory;
@@ -23,26 +25,23 @@ public class ReadView extends View {
     private int width;
     private int height;
 
-    public ReadView(Context context, String path) {
+    public ReadView(Context context, String path, int[] position) {
         super(context);
-        sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
-        font_size = sp.getInt("font_size", 60);
+        int font_size = SpUtil.getInt(context, SpUtil.FONT_SIZE, 60);
+        Log.i(TAG, "font_size" + font_size);
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         width = manager.getDefaultDisplay().getWidth();
         height = manager.getDefaultDisplay().getHeight();
-        Log.e(width + ":宽", height + "：高");
+        Log.i(width + ":宽", height + "：高");
         mCurrentPageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCurrentPageCanvas = new Canvas(mCurrentPageBitmap);
         pagefactory = new PageFactory(context, width, height, font_size);
         try {
-            position[0] = sp.getInt("begin", 0);
-            position[1] = sp.getInt("end", 0);
-            Log.e("start" + position[0], "end" + position[1]);
+            Log.i("start" + position[0], "end" + position[1]);
             pagefactory.setBgBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.bg));
             pagefactory.openBook(path, position);
             pagefactory.onDraw(mCurrentPageCanvas);
         } catch (Exception e) {
-            // TODO: handle exception
         }
     }
 
@@ -74,6 +73,10 @@ public class ReadView extends View {
         editor2.apply();
     }
 
+    //获得当前位置的方法
+    public int[] getPosition() {
+        return pagefactory.getPosition();
+    }
     public void setFont_size(int font_size) {
         pagefactory.setTextFont(font_size);
     }
