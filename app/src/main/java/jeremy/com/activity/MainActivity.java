@@ -136,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mMenuDialogFragment.setItemClickListener(this);
 //        mMenuDialogFragment.setItemLongClickListener(this);
     }
-// TODO: 2017/3/21 0021 应该增加天气刷新功能，天气预报功能
 
 
     @Override
@@ -276,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * 找出所有导航栏中头布局的所有空间，用来显示天气
+     * 找出所有导航栏中头布局的所有控件，用来显示天气
      * 初始化天气查询，用sp中存储的当前城市执行查询
      *
      * @param navigation_view navigation_view

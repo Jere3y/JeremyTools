@@ -1,7 +1,4 @@
-package com.amap.map2d.demo.route;
-
-import java.util.ArrayList;
-import java.util.List;
+package jeremy.com.activity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,7 +14,11 @@ import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.Polyline;
 import com.amap.api.maps2d.model.PolylineOptions;
-import com.amap.map2d.demo.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jeremy.com.R;
 
 public class RouteOverlay {
 	protected List<Marker> stationMarkers = new ArrayList<Marker>();

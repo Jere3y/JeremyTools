@@ -27,6 +27,7 @@ public class SpUtil {
     public static final String OTHER_LONGITUDE = "other_longitude";
     public static final String CURRENT_CITY = "current_city";
     public static final String FONT_SIZE = "font_size";
+    public static final String CURRENT_PATH = "current_path";
 
     private static SharedPreferences sp;
 

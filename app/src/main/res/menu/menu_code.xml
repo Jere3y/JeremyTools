@@ -1,9 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context="com.lfk.demo.Activity.CodeActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_code"
-        android:title="编辑"
         android:orderInCategory="100"
+        android:title="编辑"
         app:showAsAction="always" />
 </menu>

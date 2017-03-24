@@ -1,7 +1,4 @@
-package com.amap.map2d.demo.route;
-
-import java.util.ArrayList;
-import java.util.List;
+package jeremy.com.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -16,11 +13,16 @@ import android.widget.TextView;
 import com.amap.api.services.busline.BusStationItem;
 import com.amap.api.services.route.BusStep;
 import com.amap.api.services.route.RailwayStationItem;
-import com.amap.map2d.demo.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jeremy.com.R;
+import jeremy.com.activity.SchemeBusStep;
 
 public class BusSegmentListAdapter extends BaseAdapter {
 	private Context mContext;
-	private List<SchemeBusStep> mBusStepList = new ArrayList<SchemeBusStep>();	
+	private List<SchemeBusStep> mBusStepList = new ArrayList<SchemeBusStep>();
 
 	public BusSegmentListAdapter(Context context, List<BusStep> list) {
 		this.mContext = context;

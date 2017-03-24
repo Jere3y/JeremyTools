@@ -23,7 +23,9 @@
         <activity android:name=".activity.SelectFromAmapActivity"/>
         <activity android:name=".activity.ReadActivity" />
         <activity android:name=".activity.CodeActivity" />
+        <activity android:name=".activity.BusRouteDetailActivity" />
         <service android:name="com.amap.api.location.APSService" />
+
     </application>
 
     <!--用于进行网络定位-->

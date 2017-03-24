@@ -1,4 +1,4 @@
-package com.amap.map2d.demo.util;
+package jeremy.com.utils;
 
 public class ChString {
 	public static final String Kilometer = "\u516c\u91cc";// "公里";

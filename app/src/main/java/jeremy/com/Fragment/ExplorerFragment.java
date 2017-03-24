@@ -27,6 +27,7 @@ import jeremy.com.activity.CodeActivity;
 import jeremy.com.activity.ReadActivity;
 import jeremy.com.adapter.RecyclerExplorerAdapter;
 import jeremy.com.bean.FileInfo;
+import jeremy.com.utils.SpUtil;
 import jeremy.com.utils.ToastUtil;
 
 /**
@@ -57,7 +58,7 @@ public class ExplorerFragment extends Fragment {
         rootFile = Environment.getExternalStorageDirectory();
         if (rootFile != null) {
             rootPath = rootFile.getPath();
-            currentPath = rootPath;
+            currentPath = SpUtil.getString(getContext(), SpUtil.CURRENT_PATH, rootPath);
         }
 
 
@@ -99,6 +100,12 @@ public class ExplorerFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        SpUtil.putString(getContext(), SpUtil.CURRENT_PATH, currentPath);
     }
 
     private void initView(View view) {

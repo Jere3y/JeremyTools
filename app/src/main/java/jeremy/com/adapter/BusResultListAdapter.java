@@ -1,6 +1,4 @@
-package com.amap.map2d.demo.route;
-
-import java.util.List;
+package jeremy.com.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +10,12 @@ import android.widget.TextView;
 
 import com.amap.api.services.route.BusPath;
 import com.amap.api.services.route.BusRouteResult;
-import com.amap.map2d.demo.R;
-import com.amap.map2d.demo.util.AMapUtil;
+
+import java.util.List;
+
+import jeremy.com.R;
+import jeremy.com.activity.BusRouteDetailActivity;
+import jeremy.com.utils.AMapUtil;
 
 public class BusResultListAdapter extends BaseAdapter {
 	private Context mContext;

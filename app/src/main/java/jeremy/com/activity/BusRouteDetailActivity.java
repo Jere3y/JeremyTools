@@ -1,8 +1,9 @@
-package com.amap.map2d.demo.route;
+package jeremy.com.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -17,13 +18,16 @@ import com.amap.api.maps2d.AMap.OnMarkerClickListener;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.overlay.BusRouteOverlay;
 import com.amap.api.services.route.BusPath;
 import com.amap.api.services.route.BusRouteResult;
-import com.amap.map2d.demo.R;
-import com.amap.map2d.demo.util.AMapUtil;
 
-public class BusRouteDetailActivity extends Activity implements OnMapLoadedListener, 
-OnMapClickListener, InfoWindowAdapter, OnInfoWindowClickListener, OnMarkerClickListener {
+import jeremy.com.R;
+import jeremy.com.adapter.BusSegmentListAdapter;
+import jeremy.com.utils.AMapUtil;
+
+public class BusRouteDetailActivity extends Activity implements OnMapLoadedListener,
+		OnMapClickListener, InfoWindowAdapter, OnInfoWindowClickListener, OnMarkerClickListener {
 	private AMap aMap;
 	private MapView mapView;
 	private BusPath mBuspath;
@@ -33,6 +37,8 @@ OnMapClickListener, InfoWindowAdapter, OnInfoWindowClickListener, OnMarkerClickL
 	private BusSegmentListAdapter mBusSegmentListAdapter;
 	private LinearLayout mBusMap, mBuspathview;
 	private BusRouteOverlay mBusrouteOverlay;
+	private Toolbar tb_route;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,9 +62,21 @@ OnMapClickListener, InfoWindowAdapter, OnInfoWindowClickListener, OnMarkerClickL
 			aMap = mapView.getMap();	
 		}
 		registerListener();
-		
-		mTitle = (TextView) findViewById(R.id.title_center);
-		mTitle.setText("公交路线详情");
+
+
+		tb_route = (Toolbar) findViewById(R.id.tb_route);
+		tb_route.setTitle("公交路线详情");
+		tb_route.setTitleTextColor(getResources().getColor(R.color.primary_text));
+		tb_route.setNavigationIcon(R.drawable.back);
+		tb_route.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+//
+//		mTitle = (TextView) findViewById(R.id.title_center);
+//		mTitle.setText("公交路线详情");
 		mTitleBusRoute = (TextView) findViewById(R.id.firstline);
 		mDesBusRoute = (TextView) findViewById(R.id.secondline);
 		String dur = AMapUtil.getFriendlyTime((int) mBuspath.getDuration());
@@ -67,8 +85,8 @@ OnMapClickListener, InfoWindowAdapter, OnInfoWindowClickListener, OnMarkerClickL
 		int taxiCost = (int) mBusRouteResult.getTaxiCost();
 		mDesBusRoute.setText("打车约"+taxiCost+"元");
 		mDesBusRoute.setVisibility(View.VISIBLE);
-		mBusMap = (LinearLayout)findViewById(R.id.title_map);
-		mBusMap.setVisibility(View.VISIBLE);
+//		mBusMap = (LinearLayout)findViewById(R.id.title_map);
+//		mBusMap.setVisibility(View.VISIBLE);
 		mBuspathview = (LinearLayout)findViewById(R.id.bus_path);
 		configureListView();
 	}
@@ -95,7 +113,8 @@ OnMapClickListener, InfoWindowAdapter, OnInfoWindowClickListener, OnMarkerClickL
 	
 	public void onMapClick(View view) {
 		mBuspathview.setVisibility(View.GONE);
-		mBusMap.setVisibility(View.GONE);
+		tb_route.setVisibility(View.GONE);
+//		mBusMap.setVisibility(View.GONE);
 		mapView.setVisibility(View.VISIBLE);
 		aMap.clear();// 清理地图上的所有覆盖物
 		mBusrouteOverlay = new BusRouteOverlay(this, aMap,

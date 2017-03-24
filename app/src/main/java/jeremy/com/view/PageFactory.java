@@ -104,7 +104,6 @@ public class PageFactory {
     }
 
     private void pageUp() {
-        // TODO Auto-generated method stub
         String strParagraph = "";
         Vector<String> lines = new Vector<String>();
         while ((lines.size() < mPageLineCount) && (m_mbBufBeginPos > 0)) {
@@ -116,7 +115,6 @@ public class PageFactory {
             try {
                 strParagraph = new String(parabuffer, "GBK");
             } catch (UnsupportedEncodingException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             strParagraph = strParagraph.replaceAll("\r\n", "  ");
@@ -142,7 +140,6 @@ public class PageFactory {
     }
 
     private Vector<String> pageDown() {
-        // TODO Auto-generated method stub
         String strParagraph = "";
         Vector<String> lines = new Vector<String>();
         while ((lines.size() < mPageLineCount) && (m_mbBufEndPos < m_mpBufferLen)) {
@@ -151,7 +148,6 @@ public class PageFactory {
             try {
                 strParagraph = new String(parabuffer, "GBK");
             } catch (UnsupportedEncodingException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             strParagraph = strParagraph.replaceAll("\r\n", "  ");
@@ -177,7 +173,6 @@ public class PageFactory {
     }
 
     private byte[] readParagraphForward(int m_mbBufPos) {
-        // TODO Auto-generated method stub
         byte b0, b1;
         int i = m_mbBufPos;
         while (i < m_mpBufferLen) {
@@ -214,7 +209,6 @@ public class PageFactory {
     }
 
     public void nextPage() {
-        // TODO Auto-generated method stub
         if (m_mbBufEndPos >= m_mpBufferLen) {
             return;
         } else {
@@ -225,7 +219,6 @@ public class PageFactory {
     }
 
     public void prePage() {
-        // TODO Auto-generated method stub
         if (m_mbBufBeginPos <= 0) {
             return;
         }
@@ -240,7 +233,6 @@ public class PageFactory {
     }
 
     public void setTextFont(int fontsize) {
-        // TODO Auto-generated method stub
         mFontSize = fontsize;
         mPaint.setTextSize(mFontSize);
         mPageLineCount = mVisibleHeight / (mFontSize + mLineSpace);
@@ -249,12 +241,10 @@ public class PageFactory {
     }
 
     public int getTextFont() {
-        // TODO Auto-generated method stub
         return mFontSize;
     }
 
     public void setPercent(int persent) {
-        // TODO Auto-generated method stub
         float a = (float) (m_mpBufferLen * persent) / 100;
         m_mbBufEndPos = (int) a;
         if (m_mbBufEndPos == 0) {

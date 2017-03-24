@@ -1,9 +1,11 @@
 package jeremy.com.activity;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -17,7 +19,7 @@ import jeremy.com.view.CodeView;
  * Created by Xin on 2017/3/23 0023,15:24.
  */
 
-public class CodeActivity extends Activity {
+public class CodeActivity extends AppCompatActivity {
     private static final String TAG = "CodeActivity";
     CodeView codeView;
 
@@ -26,6 +28,7 @@ public class CodeActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_code);
         codeView = (CodeView) findViewById(R.id.mcodeview);
 
@@ -42,5 +45,30 @@ public class CodeActivity extends Activity {
             Log.e(TAG, "文件为空！");
             finish();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_code, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_code) {
+            if (!codeView.isEditable()) {
+                item.setTitle("完成");
+                codeView.setContentEditable(true);
+            } else {
+                item.setTitle("编辑");
+                codeView.setContentEditable(false);
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
