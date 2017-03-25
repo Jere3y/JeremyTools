@@ -37,6 +37,7 @@
             android:id="@+id/bn_back"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_weight="1" />
 
         <Button
@@ -44,11 +45,12 @@
             android:id="@+id/bn_like"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_weight="1" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_file_explorer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent" />
 </LinearLayout>

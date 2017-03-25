@@ -38,7 +38,7 @@ public class AboutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_about, null);
+        View view = inflater.inflate(R.layout.fragment_about, container, false);
         ViewPager vp_about = (ViewPager) view.findViewById(R.id.vp_about);
         TabLayout tl_about = (TabLayout) view.findViewById(R.id.tl_about);
         for (int i = 0; i < titles.length; i++) {

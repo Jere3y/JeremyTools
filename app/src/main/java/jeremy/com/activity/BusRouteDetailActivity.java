@@ -32,10 +32,10 @@ public class BusRouteDetailActivity extends Activity implements OnMapLoadedListe
 	private MapView mapView;
 	private BusPath mBuspath;
 	private BusRouteResult mBusRouteResult;
-	private TextView mTitle, mTitleBusRoute, mDesBusRoute;
+	private TextView mTitleBusRoute, mDesBusRoute;
 	private ListView mBusSegmentList;
 	private BusSegmentListAdapter mBusSegmentListAdapter;
-	private LinearLayout mBusMap, mBuspathview;
+	private LinearLayout mBuspathview;
 	private BusRouteOverlay mBusrouteOverlay;
 	private Toolbar tb_route;
 
@@ -74,9 +74,7 @@ public class BusRouteDetailActivity extends Activity implements OnMapLoadedListe
 				finish();
 			}
 		});
-//
-//		mTitle = (TextView) findViewById(R.id.title_center);
-//		mTitle.setText("公交路线详情");
+
 		mTitleBusRoute = (TextView) findViewById(R.id.firstline);
 		mDesBusRoute = (TextView) findViewById(R.id.secondline);
 		String dur = AMapUtil.getFriendlyTime((int) mBuspath.getDuration());
@@ -106,11 +104,7 @@ public class BusRouteDetailActivity extends Activity implements OnMapLoadedListe
 		mBusSegmentList.setAdapter(mBusSegmentListAdapter);
 		
 	}
-	
-	public void onBackClick(View view) {
-		this.finish();
-	}
-	
+
 	public void onMapClick(View view) {
 		mBuspathview.setVisibility(View.GONE);
 		tb_route.setVisibility(View.GONE);
@@ -134,31 +128,26 @@ public class BusRouteDetailActivity extends Activity implements OnMapLoadedListe
 
 	@Override
 	public void onMapClick(LatLng arg0) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public View getInfoContents(Marker arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public View getInfoWindow(Marker arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void onInfoWindowClick(Marker arg0) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public boolean onMarkerClick(Marker arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	

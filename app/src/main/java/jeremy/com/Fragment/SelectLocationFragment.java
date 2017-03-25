@@ -25,7 +25,7 @@ public class SelectLocationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_selecte_location, null);
+        View view = inflater.inflate(R.layout.fragment_selecte_location, container, false);
         tv_select_location = (TextView) view.findViewById(R.id.tv_select_location);
         bn_select_from_map = (Button) view.findViewById(R.id.bn_select_from_map);
         bn_select_from_map.setOnClickListener(new View.OnClickListener() {

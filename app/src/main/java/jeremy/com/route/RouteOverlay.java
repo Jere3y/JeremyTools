@@ -1,4 +1,4 @@
-package jeremy.com.activity;
+package jeremy.com.route;
 
 import android.content.Context;
 import android.graphics.Bitmap;

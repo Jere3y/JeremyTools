@@ -79,7 +79,7 @@ public class LocationFragment extends Fragment implements RouteSearch.OnRouteSea
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_location, null);
+        View view = inflater.inflate(R.layout.fragment_location, container, false);
         findView(view);
         findMyLocation();
         mContext = getActivity().getApplicationContext();
@@ -282,9 +282,8 @@ public class LocationFragment extends Fragment implements RouteSearch.OnRouteSea
             if (result != null && result.getPaths() != null) {
                 if (result.getPaths().size() > 0) {
                     mBusRouteResult = result;
-//                    BusResultListAdapter mBusResultListAdapter =
-//                            new BusResultListAdapter(mContext, mBusRouteResult);
-//                    lv_bus.setAdapter(mBusResultListAdapter);
+                    int taxiCost = (int) mBusRouteResult.getTaxiCost();
+                    tv_taxi_cost.setText("打车大约" + taxiCost + "元");
                     BusResultRecyclerAdapter adapter =
                             new BusResultRecyclerAdapter(mContext, mBusRouteResult);
                     lv_bus.setAdapter(adapter);

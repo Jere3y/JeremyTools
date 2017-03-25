@@ -41,7 +41,7 @@ public class AboutWayFragment extends Fragment implements View.OnClickListener, 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_about_way, null);
+        View view = inflater.inflate(R.layout.fragment_about_way, container, false);
         tv_set_home_address = (TextView) view.findViewById(R.id.tv_set_home_address);
         tv_set_work_address = (TextView) view.findViewById(R.id.tv_set_work_address);
         tv_set_other_address = (TextView) view.findViewById(R.id.tv_set_other_address);

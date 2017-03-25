@@ -35,7 +35,7 @@ public class WayToAnywhereFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_way_to_anywhere, null);
+        View view = inflater.inflate(R.layout.fragment_way_to_anywhere, container, false);
 
         ViewPager vp_pager = (ViewPager) view.findViewById(R.id.vp_pager);
         TabLayout tl_tab = (TabLayout) view.findViewById(R.id.tl_tab);
