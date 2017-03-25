@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void initToolBar() {
         drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
         tb_global = (Toolbar) findViewById(R.id.tb_global);
+        tb_global.setNavigationIcon(R.drawable.ic_menu);
         setSupportActionBar(tb_global);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer_layout, tb_global, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
