@@ -23,7 +23,7 @@ import jeremy.com.adapter.MyPagerAdapter;
 
 public class AboutFragment extends Fragment {
     private List<Fragment> fragments;
-    private String[] titles = {"路线设置", "阅读设置", "博客设置"};
+    private String[] titles = {"路线设置", "阅读设置", "清单设置"};
 
     public AboutFragment() {
         super();

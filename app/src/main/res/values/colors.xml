@@ -10,4 +10,5 @@
     <color name="divider">#BDBDBD</color>
     <color name="bg">#009688</color>
     <color name="global_bg">#e0e0e0</color>
+    <color name="float_button">#f44336</color>
 </resources>

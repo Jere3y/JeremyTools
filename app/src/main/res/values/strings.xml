@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">便捷神器</string>
+    <string name="app_name">Total Tools</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="Complete">完成查询</string>
     <string name="Error">查询失败</string>
     <string name="Upload">不知道是啥</string>
+    <string name="task_list_tips">在这里记录要完成的任务清单，还可以用#任务，来标记任务分类。</string>
 </resources>

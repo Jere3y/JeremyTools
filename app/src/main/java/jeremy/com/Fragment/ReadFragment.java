@@ -43,7 +43,6 @@ public class ReadFragment extends Fragment {
         for (int i = 0; i < titles.length; i++) {
             tl_tab.addTab(tl_tab.newTab());
         }
-
         MyPagerAdapter adapter =
                 new MyPagerAdapter(getChildFragmentManager(), fragments, titles);
         vp_pager.setAdapter(adapter);

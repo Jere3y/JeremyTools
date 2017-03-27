@@ -58,10 +58,9 @@ public class LocationFragment extends Fragment implements RouteSearch.OnRouteSea
     private String currentDistrict;
     private String currentStreetNum;
     private String currentCity;
-    private RecyclerView rv_way_to_anywhere;
     private LatLonPoint from;
     private LatLonPoint to;
-    private int pathCount;
+
     CircularProgressButton mButton;
 
     private AMapLocationClient mLocationClient = null;
@@ -71,7 +70,7 @@ public class LocationFragment extends Fragment implements RouteSearch.OnRouteSea
     private CircularProgressButton bn_go_to_work;
     private CircularProgressButton bn_go_to_anywhere;
     private TextView tv_taxi_cost;
-    //    private ListView lv_bus;
+
     private RecyclerView lv_bus;
     private BusRouteResult mBusRouteResult;
     private Context mContext;
@@ -97,7 +96,7 @@ public class LocationFragment extends Fragment implements RouteSearch.OnRouteSea
         bn_go_home = (CircularProgressButton) view.findViewById(R.id.bn_go_home);
         bn_go_to_work = (CircularProgressButton) view.findViewById(R.id.bn_go_to_work);
         bn_go_to_anywhere = (CircularProgressButton) view.findViewById(R.id.bn_go_to_anywhere);
-//        lv_bus = (ListView) view.findViewById(R.id.lv_bus);
+
         lv_bus = (RecyclerView) view.findViewById(R.id.lv_bus);
         lv_bus.setLayoutManager(new LinearLayoutManager(getContext()));
         lv_bus.setItemAnimator(new DefaultItemAnimator());

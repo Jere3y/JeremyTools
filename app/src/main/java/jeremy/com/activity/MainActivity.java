@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -38,13 +39,17 @@ import java.util.List;
 
 import jeremy.com.Fragment.AboutFragment;
 import jeremy.com.Fragment.ReadFragment;
+import jeremy.com.Fragment.TaskListFragment;
 import jeremy.com.Fragment.WayToAnywhereFragment;
 import jeremy.com.R;
 import jeremy.com.utils.PermissionUtil;
 import jeremy.com.utils.SpUtil;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, WeatherSearch.OnWeatherSearchListener, OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener
+        , WeatherSearch.OnWeatherSearchListener
+        , OnMenuItemClickListener {
 
     /**
      * 权限列表
@@ -64,8 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private WayToAnywhereFragment wayToAnywhereFragment;
     private AboutFragment aboutFragment;
     private ReadFragment readFragment;
-
-    private List<Fragment> fragmentList;
+    private TaskListFragment taskListFragment;
 
     WeatherSearch mweathersearch;
     private TextView tv_weather_city;
@@ -79,10 +83,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String currentCity;
     private List<TextView> weatherTextList;
     private WeatherSearchQuery queryLive;
+    private List<Fragment> fragmentList;
 
-
-    //声明定位回调监听器
-    //public AMapLocationListener mLocationListener = new AMapLocationListener();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,14 +98,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initMenuFragment();
 
         //开启事务，默认加载的是WayToAnywhereFragment
-        replaceWayToAnywhereFragment();
+        showTaskListFragment();
 
     }
 
     private void initToolBar() {
         drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
         tb_global = (Toolbar) findViewById(R.id.tb_global);
-        tb_global.setNavigationIcon(R.drawable.ic_menu);
         setSupportActionBar(tb_global);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer_layout, tb_global, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -119,58 +120,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initFragment() {
         fragmentManager = getSupportFragmentManager();
-        aboutFragment = new AboutFragment();
-        readFragment = new ReadFragment();
         wayToAnywhereFragment = new WayToAnywhereFragment();
+        readFragment = new ReadFragment();
+        taskListFragment = new TaskListFragment();
+        aboutFragment = new AboutFragment();
+        fragmentList = new ArrayList<>();
 
-//        fragmentList.add(wayToAnywhereFragment);
-//        fragmentList.add(readFragment);
-//        fragmentList.add(aboutFragment);
-    }
+        fragmentList.add(wayToAnywhereFragment);
+        fragmentList.add(readFragment);
+        fragmentList.add(taskListFragment);
+        fragmentList.add(aboutFragment);
 
-    private void initMenuFragment() {
-        MenuParams menuParams = new MenuParams();
-        menuParams.setActionBarSize((int) getResources().getDimension(R.dimen.tool_bar_height));
-        menuParams.setMenuObjects(getMenuObjects());
-        menuParams.setClosableOutside(true);
-        mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams);
-        mMenuDialogFragment.setItemClickListener(this);
-//        mMenuDialogFragment.setItemLongClickListener(this);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.context_menu:
-                if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
-                    mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
-                }
-                break;
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        for (Fragment fragment
+                : fragmentList) {
+            transaction.add(R.id.ll_content_main, fragment);
         }
-        return super.onOptionsItemSelected(item);
+        transaction.commit();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.item_way) {
-            replaceWayToAnywhereFragment();
-        } else if (itemId == R.id.item_read) {
-            replaceReadFragment();
-        } else if (itemId == R.id.item_blog) {
 
-        } else if (itemId == R.id.item_about) {
-
-            replaceAboutFragment();
-
-        } else if (itemId == R.id.item_exit) {
-            showExitDialog();
+    private void showThisFragmentHideOthers(Fragment showFragment) {
+        FragmentTransaction t = fragmentManager.beginTransaction();
+        for (Fragment fragment :
+                fragmentList) {
+            if (fragment == showFragment) {
+                t.show(fragment);
+            } else {
+                t.hide(fragment);
+            }
         }
+        t.commit();
+    }
 
+    private void showTaskListFragment() {
+        showThisFragmentHideOthers(taskListFragment);
+        tb_global.setTitle("清单");
+    }
 
-        drawer_layout.closeDrawer(GravityCompat.START);
-        return true;
+    private void showAboutFragment() {
+        showThisFragmentHideOthers(aboutFragment);
+        tb_global.setTitle("设置");
+    }
+
+    private void showReadFragment() {
+        showThisFragmentHideOthers(readFragment);
+        tb_global.setTitle("文件");
+    }
+
+    private void showWayToAnywhereFragment() {
+        showThisFragmentHideOthers(wayToAnywhereFragment);
+        tb_global.setTitle("路线");
     }
 
     private void showExitDialog() {
@@ -193,38 +193,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .create()
                 .show();
     }
-
-    private void replaceAboutFragment() {
-        fragmentManager.beginTransaction()
-                .replace(R.id.ll_content_main, aboutFragment)
-                .commit();
-        tb_global.setTitle("设置");
+    private void initMenuFragment() {
+        MenuParams menuParams = new MenuParams();
+        menuParams.setActionBarSize((int) getResources().getDimension(R.dimen.tool_bar_height));
+        menuParams.setMenuObjects(getMenuObjects());
+        menuParams.setClosableOutside(true);
+        mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams);
+        mMenuDialogFragment.setItemClickListener(this);
+//        mMenuDialogFragment.setItemLongClickListener(this);
     }
 
-    private void replaceReadFragment() {
-        fragmentManager.beginTransaction()
-                .replace(R.id.ll_content_main, readFragment)
-                .commit();
-        tb_global.setTitle("阅读");
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.context_menu:
+                if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
+                    mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.item_way) {
+            showWayToAnywhereFragment();
+        } else if (itemId == R.id.item_read) {
+            showReadFragment();
+        } else if (itemId == R.id.item_list) {
+            showTaskListFragment();
+        } else if (itemId == R.id.item_about) {
 
-    private void replaceWayToAnywhereFragment() {
-        fragmentManager.beginTransaction()
-                .replace(R.id.ll_content_main, wayToAnywhereFragment)
-                .commit();
-        tb_global.setTitle("路线");
+            showAboutFragment();
+
+        } else if (itemId == R.id.item_exit) {
+            showExitDialog();
+        }
+
+
+        drawer_layout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     @Override
     public void onMenuItemClick(View clickedView, int position) {
         switch (position) {
             case 1:
-                replaceWayToAnywhereFragment();
+                showWayToAnywhereFragment();
                 break;
             case 2:
-                replaceReadFragment();
+                showReadFragment();
                 break;
             case 3:
+                showTaskListFragment();
                 break;
         }
     }
@@ -257,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuObject reader = new MenuObject("文件");
         reader.setResource(R.drawable.ic_nav_item_reader);
 
-        MenuObject blog = new MenuObject("博客");
+        MenuObject blog = new MenuObject("清单");
         blog.setResource(R.drawable.ic_nav_item_blog);
 
 

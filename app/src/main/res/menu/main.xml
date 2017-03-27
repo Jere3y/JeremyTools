@@ -11,9 +11,9 @@
                 android:icon="@mipmap/ic_nav_item_reader"
                 android:title="阅读" />
             <item
-                android:id="@+id/item_blog"
+                android:id="@+id/item_list"
                 android:icon="@mipmap/ic_nav_item_blog"
-                android:title="博客" />
+                android:title="清单" />
         </menu>
     </item>
     <item android:title="系统">

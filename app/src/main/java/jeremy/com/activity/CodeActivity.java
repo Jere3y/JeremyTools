@@ -57,8 +57,6 @@ public class CodeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_code) {
             if (!codeView.isEditable()) {
                 item.setTitle("完成");

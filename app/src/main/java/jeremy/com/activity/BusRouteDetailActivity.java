@@ -28,9 +28,9 @@ import jeremy.com.utils.AMapUtil;
 
 public class BusRouteDetailActivity extends Activity implements OnMapLoadedListener,
 		OnMapClickListener, InfoWindowAdapter, OnInfoWindowClickListener, OnMarkerClickListener {
-	private AMap aMap;
-	private MapView mapView;
-	private BusPath mBuspath;
+    private AMap mAMap;
+    private MapView mMapView;
+    private BusPath mBuspath;
 	private BusRouteResult mBusRouteResult;
 	private TextView mTitleBusRoute, mDesBusRoute;
 	private ListView mBusSegmentList;
@@ -43,9 +43,9 @@ public class BusRouteDetailActivity extends Activity implements OnMapLoadedListe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_route_detail);
-		mapView = (MapView) findViewById(R.id.route_map);
-		mapView.onCreate(savedInstanceState);// 此方法必须重写
-		getIntentData();
+        mMapView = (MapView) findViewById(R.id.route_map);
+        mMapView.onCreate(savedInstanceState);// 此方法必须重写
+        getIntentData();
 		init();
 	}
 
@@ -58,9 +58,9 @@ public class BusRouteDetailActivity extends Activity implements OnMapLoadedListe
 	}
 
 	private void init() {
-		if (aMap == null) {
-			aMap = mapView.getMap();	
-		}
+        if (mAMap == null) {
+            mAMap = mMapView.getMap();
+        }
 		registerListener();
 
 
@@ -90,12 +90,12 @@ public class BusRouteDetailActivity extends Activity implements OnMapLoadedListe
 	}
 
 	private void registerListener() {
-		aMap.setOnMapLoadedListener(this);
-		aMap.setOnMapClickListener(this);
-		aMap.setOnMarkerClickListener(this);
-		aMap.setOnInfoWindowClickListener(this);
-		aMap.setInfoWindowAdapter(this);
-	}
+        mAMap.setOnMapLoadedListener(this);
+        mAMap.setOnMapClickListener(this);
+        mAMap.setOnMarkerClickListener(this);
+        mAMap.setOnInfoWindowClickListener(this);
+        mAMap.setInfoWindowAdapter(this);
+    }
 
 	private void configureListView() {
 		mBusSegmentList = (ListView) findViewById(R.id.bus_segment_list);
@@ -109,10 +109,10 @@ public class BusRouteDetailActivity extends Activity implements OnMapLoadedListe
 		mBuspathview.setVisibility(View.GONE);
 		tb_route.setVisibility(View.GONE);
 //		mBusMap.setVisibility(View.GONE);
-		mapView.setVisibility(View.VISIBLE);
-		aMap.clear();// 清理地图上的所有覆盖物
-		mBusrouteOverlay = new BusRouteOverlay(this, aMap,
-				mBuspath, mBusRouteResult.getStartPos(),
+        mMapView.setVisibility(View.VISIBLE);
+        mAMap.clear();// 清理地图上的所有覆盖物
+        mBusrouteOverlay = new BusRouteOverlay(this, mAMap,
+                mBuspath, mBusRouteResult.getStartPos(),
 				mBusRouteResult.getTargetPos());
 		mBusrouteOverlay.removeFromMap();
 

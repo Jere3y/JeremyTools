@@ -45,6 +45,7 @@
         <activity android:name=".activity.ReadActivity" />
         <activity android:name=".activity.CodeActivity" />
         <activity android:name=".activity.BusRouteDetailActivity" />
+        <activity android:name=".activity.CreateNewListActivity" />
         <service android:name="com.amap.api.location.APSService" />
 
     </application>
