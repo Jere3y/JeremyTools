@@ -38,7 +38,7 @@ public class SelectFromAmapActivity extends Activity implements LocationSource, 
     private MapView mMapView;
     private Intent mIntent;
     private AMap aMap;
-    MyLocationStyle myLocationStyle;
+    private MyLocationStyle myLocationStyle;
     private UiSettings mUiSettings;//定义一个UiSettings对象
 
 

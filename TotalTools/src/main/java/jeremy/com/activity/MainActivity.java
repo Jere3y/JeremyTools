@@ -65,13 +65,13 @@ public class MainActivity extends AppCompatActivity implements
     private FragmentManager fragmentManager;
     private Toolbar tb_global;
 
-    //三个fragment
     private WayToAnywhereFragment wayToAnywhereFragment;
     private AboutFragment aboutFragment;
     private ReadFragment readFragment;
     private TaskListFragment taskListFragment;
+    private List<Fragment> fragmentList;
 
-    WeatherSearch mweathersearch;
+    private WeatherSearch mweathersearch;
     private TextView tv_weather_city;
     private TextView tv_weather_refresh_time;
     private TextView tv_weather_state;
@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements
     private String currentCity;
     private List<TextView> weatherTextList;
     private WeatherSearchQuery queryLive;
-    private List<Fragment> fragmentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements
         //请求权限
         PermissionUtil.CheckAndRequestPermission(this, permissions, 100);
 
-        initNavigationView();
+        initNavigationUpdataWeather();
         initToolBar();
         initFragment();
         initMenuFragment();
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements
         toggle.syncState();
     }
 
-    private void initNavigationView() {
+    private void initNavigationUpdataWeather() {
         NavigationView navigation_view = (NavigationView) findViewById(R.id.navigation_view);
         navigation_view.setNavigationItemSelectedListener(this);
         findIdAndRefreshWeather(navigation_view);
@@ -193,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements
                 .create()
                 .show();
     }
+
     private void initMenuFragment() {
         MenuParams menuParams = new MenuParams();
         menuParams.setActionBarSize((int) getResources().getDimension(R.dimen.tool_bar_height));
@@ -214,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
@@ -224,9 +225,7 @@ public class MainActivity extends AppCompatActivity implements
         } else if (itemId == R.id.item_list) {
             showTaskListFragment();
         } else if (itemId == R.id.item_about) {
-
             showAboutFragment();
-
         } else if (itemId == R.id.item_exit) {
             showExitDialog();
         }
