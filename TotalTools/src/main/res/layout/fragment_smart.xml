@@ -5,20 +5,24 @@
               android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_today"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/tv_date"
             style="@style/smart_title"
             android:text="今天是3月30日,星期四："/>
 
         <TextView
+            android:id="@+id/tv_weather"
             style="@style/smart_body"
             android:text="今日天气：晴，20℃-15℃"/>
 
         <TextView
+            android:id="@+id/tv_weather_tip"
             style="@style/smart_body"
             android:text="今天阳光明媚，天气晴朗,祝你拥有快乐的一天"/>
 

@@ -18,7 +18,7 @@ import jeremy.com.adapter.MyPagerAdapter;
 /**
  * Created by Xin on 2017/3/19 0019,16:19.
  * 这个是设置界面的root Fragment
- * 他包含3个fragment AboutWayFragment，AboutReadFragment，AboutBLogUtilFragment
+ * 他包含3个fragment AboutWayFragment，AboutReadFragment，AboutTaskListFragment
  */
 
 public class AboutFragment extends Fragment {
@@ -30,7 +30,7 @@ public class AboutFragment extends Fragment {
         fragments = new ArrayList<>();
         fragments.add(new AboutWayFragment());
         fragments.add(new AboutReadFragment());
-        fragments.add(new AboutBLogUtilFragment());
+        fragments.add(new AboutTaskListFragment());
     }
 
     @Nullable

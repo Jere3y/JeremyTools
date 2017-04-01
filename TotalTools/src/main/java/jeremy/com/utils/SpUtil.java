@@ -29,6 +29,16 @@ public class SpUtil {
     public static final String FONT_SIZE = "font_size";
     public static final String CURRENT_PATH = "current_path";
 
+    public static final String REPORT_TIME = "report_time";
+    public static final String LIVE_WEATHER = "live_weather";
+    public static final String TEMPERATURE = "temperature";
+    public static final String WIND_DIR = "wind_dir";
+    public static final String WIND_POWER = "windPower";
+    public static final String HUMIDITY = "humidity";
+    public static final String LAST_UPDATE_TIME = "last_update_time";
+    public static final String SMART_WEATHER = "SMARTWEATHER";
+    public static final String WEATHER_TIP = "WEATHER_TIP";
+
     private static SharedPreferences sp;
 
     private static void getSp(Context context) {

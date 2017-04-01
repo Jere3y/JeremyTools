@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements
     private AboutFragment aboutFragment;
     private ReadFragment readFragment;
     private TaskListFragment taskListFragment;
-    private List<Fragment> fragmentList;
+    private Fragment[] fragmentList;
 
     private WeatherSearch mweathersearch;
     private TextView tv_weather_city;
@@ -91,7 +92,8 @@ public class MainActivity extends AppCompatActivity implements
         initToolBar();
         initFragment();
 
-        showTaskListFragment();
+//        showTaskListFragment();
+        showSmartFragment();
     }
 
     private void initToolBar() {
@@ -117,19 +119,47 @@ public class MainActivity extends AppCompatActivity implements
 
     private void initFragment() {
         fragmentManager = getSupportFragmentManager();
+
         smartFragment = new SmartFragment();
         wayToAnywhereFragment = new WayToAnywhereFragment();
         readFragment = new ReadFragment();
         taskListFragment = new TaskListFragment();
         aboutFragment = new AboutFragment();
-        fragmentList = new ArrayList<>();
+        fragmentList = new Fragment[5];
+
+        fragmentList[0] = smartFragment;
+        fragmentList[1] = wayToAnywhereFragment;
+        fragmentList[2] = readFragment;
+        fragmentList[3] = taskListFragment;
+        fragmentList[4] = aboutFragment;
+
+        fragmentManager.beginTransaction()
+                .add(R.id.ll_content_main, smartFragment, "0")
+                .add(R.id.ll_content_main, wayToAnywhereFragment, "1")
+                .add(R.id.ll_content_main, readFragment, "2")
+                .add(R.id.ll_content_main, taskListFragment, "3")
+                .add(R.id.ll_content_main, aboutFragment, "4")
+                .commit();
+
     }
 
 
     private void replaceThisFragment(Fragment showFragment) {
-        fragmentManager.beginTransaction()
-                .replace(R.id.ll_content_main, showFragment)
-                .commit();
+
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        for (int i = 0; i < 5; i++) {
+            if (fragmentList[i] == null) {
+                fragmentList[i] = fragmentManager.findFragmentByTag(i + "");
+            }
+            if (fragmentList[i] == showFragment) {
+                ft.show(fragmentList[i]);
+            } else {
+                ft.hide(fragmentList[i]);
+            }
+
+        }
+        ft.commit();
+
     }
 
     private void showSmartFragment() {
@@ -157,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements
         tb_global.setTitle("路线");
     }
 
-    private void showExitDiaLogUtil() {
+    private void showExitDialg() {
         new AlertDialog.Builder(this)
                 .setIcon(R.mipmap.ic_nav_item_exit)
                 .setTitle("真的要退出吗？")
@@ -191,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements
         } else if (itemId == R.id.item_about) {
             showAboutFragment();
         } else if (itemId == R.id.item_exit) {
-            showExitDiaLogUtil();
+            showExitDialg();
         }
 
 
@@ -206,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements
                 if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
                     drawer_layout.closeDrawer(GravityCompat.START);
                 } else {
-                    showExitDiaLogUtil();
+                    showExitDialg();
                 }
                 break;
         }
@@ -303,18 +333,61 @@ public class MainActivity extends AppCompatActivity implements
         LogUtil.d(TAG, "查询实时天气成功的回调:" + rCode);
         if (rCode == 1000) {
             if (weatherLiveResult != null && weatherLiveResult.getLiveResult() != null) {
-                LocalWeatherLive weatherlive = weatherLiveResult.getLiveResult();
-                tv_weather_refresh_time.setText(weatherlive.getReportTime() + "发布");
-                tv_weather_state.setText(weatherlive.getWeather());
-                tv_weather_temp.setText(weatherlive.getTemperature() + "℃");
-                tv_weather_wind.setText(weatherlive.getWindDirection() + "风");
-                tv_weather_wind_level.setText(weatherlive.getWindPower() + "级");
-                tv_weather_humidity_level.setText(weatherlive.getHumidity() + "%");
+                LocalWeatherLive weatherLive = weatherLiveResult.getLiveResult();
+
+
+                final long l = System.currentTimeMillis();
+
+                final String reportTime = weatherLive.getReportTime() + "发布";
+                final String liveWeather = weatherLive.getWeather();
+                final String temperature = weatherLive.getTemperature() + "℃";
+                final String windDir = weatherLive.getWindDirection() + "风";
+                final String windPower = weatherLive.getWindPower() + "级";
+                final String humidity = weatherLive.getHumidity() + "%";
+
+                Long lastTime = Long.parseLong(SpUtil.getString(this, SpUtil.LAST_UPDATE_TIME, "0"));
+
+                tv_weather_refresh_time.setText(reportTime);
+                tv_weather_state.setText(liveWeather);
+                tv_weather_temp.setText(temperature);
+                tv_weather_wind.setText(windDir);
+                tv_weather_wind_level.setText(windPower);
+                tv_weather_humidity_level.setText(humidity);
+
+                String tip;
+                if (liveWeather.equals("晴")) {
+                    tip = "今天天气晴朗，阳光明媚，祝你拥有美好的一天-.-";
+                } else if (liveWeather.contains("雨")) {
+                    tip = "今天要下雨哦，出门注意带伞，淋雨会感冒的-.-";
+                } else {
+                    tip = "今天天气不太好，不过会有好事发生哦-.-";
+                }
+                String smartWeather = "今天天气：" + liveWeather + "，" + temperature;
+                smartFragment.setWeather(smartWeather, tip);
+                SpUtil.putString(getApplicationContext(), SpUtil.SMART_WEATHER, smartWeather);
+                SpUtil.putString(getApplicationContext(), SpUtil.WEATHER_TIP, tip);
 
                 mweathersearch.setQuery(new WeatherSearchQuery(currentCity,
                         WeatherSearchQuery.WEATHER_TYPE_FORECAST));
                 mweathersearch.searchWeatherAsyn();
+
+
+                if (lastTime - l > 1000 * 60 * 30) {
+                    new Thread(new Runnable() {
+                        public void run() {
+                            SpUtil.putString(getApplicationContext(), SpUtil.LAST_UPDATE_TIME, l + "");
+                            SpUtil.putString(getApplicationContext(), SpUtil.REPORT_TIME, reportTime);
+                            SpUtil.putString(getApplicationContext(), SpUtil.LIVE_WEATHER, liveWeather);
+                            SpUtil.putString(getApplicationContext(), SpUtil.TEMPERATURE, temperature);
+                            SpUtil.putString(getApplicationContext(), SpUtil.WIND_DIR, windDir);
+                            SpUtil.putString(getApplicationContext(), SpUtil.WIND_POWER, windPower);
+                            SpUtil.putString(getApplicationContext(), SpUtil.HUMIDITY, humidity);
+                        }
+                    }).start();
+
+                }
             }
+
         }
     }
 
