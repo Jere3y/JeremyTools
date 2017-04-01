@@ -28,15 +28,10 @@ public class TaskListFragment extends Fragment {
         fab_add_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getActivity(), CreateNewListActivity.class), REQUEST_NEW_LIST);
+                startActivity(new Intent(getActivity(), CreateNewListActivity.class));
             }
         });
         return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_NEW_LIST) {
-        }
-    }
 }

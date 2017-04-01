@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jeremy.com.R;
-import jeremy.com.route.SchemeBusStep;
+import jeremy.com.routeway.SchemeBusStep;
 
 public class BusSegmentListAdapter extends BaseAdapter {
 	private Context mContext;

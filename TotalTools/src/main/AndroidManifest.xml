@@ -33,8 +33,8 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="dba48a07c134862999b302d8ea24c993"/>
-        <activity android:name=".activity.MainActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,9 +42,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SelectFromAmapActivity"/>
-        <activity android:name=".activity.ReadActivity" />
+        <activity
+            android:name=".activity.ReadActivity"
+            android:theme="@style/FullScreenTheme"/>
         <activity android:name=".activity.CodeActivity" />
-        <activity android:name=".activity.BusRouteDetailActivity" />
+        <activity android:name=".routeway.BusRouteDetailActivity"/>
         <activity android:name=".activity.CreateNewListActivity" />
         <service android:name="com.amap.api.location.APSService" />
 

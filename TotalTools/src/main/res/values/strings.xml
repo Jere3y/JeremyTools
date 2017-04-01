@@ -6,4 +6,10 @@
     <string name="Error">查询失败</string>
     <string name="Upload">不知道是啥</string>
     <string name="task_list_tips">在这里记录要完成的任务清单，还可以用#任务，来标记任务分类。</string>
+    <string name="way">路线</string>
+    <string name="read">阅读</string>
+    <string name="list">清单</string>
+    <string name="index">首页</string>
+    <string name="setting">设置</string>
+    <string name="exit">退出</string>
 </resources>

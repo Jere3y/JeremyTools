@@ -7,10 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,16 +27,13 @@ import com.amap.api.services.weather.LocalWeatherLive;
 import com.amap.api.services.weather.LocalWeatherLiveResult;
 import com.amap.api.services.weather.WeatherSearch;
 import com.amap.api.services.weather.WeatherSearchQuery;
-import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
-import com.yalantis.contextmenu.lib.MenuObject;
-import com.yalantis.contextmenu.lib.MenuParams;
-import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import jeremy.com.Fragment.AboutFragment;
 import jeremy.com.Fragment.ReadFragment;
+import jeremy.com.Fragment.SmartFragment;
 import jeremy.com.Fragment.TaskListFragment;
 import jeremy.com.Fragment.WayToAnywhereFragment;
 import jeremy.com.R;
@@ -48,8 +43,7 @@ import jeremy.com.utils.SpUtil;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener
-        , WeatherSearch.OnWeatherSearchListener
-        , OnMenuItemClickListener {
+        , WeatherSearch.OnWeatherSearchListener {
 
     /**
      * 权限列表
@@ -65,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements
     private FragmentManager fragmentManager;
     private Toolbar tb_global;
 
+    private SmartFragment smartFragment;
     private WayToAnywhereFragment wayToAnywhereFragment;
     private AboutFragment aboutFragment;
     private ReadFragment readFragment;
@@ -79,10 +74,11 @@ public class MainActivity extends AppCompatActivity implements
     private TextView tv_weather_wind;
     private TextView tv_weather_wind_level;
     private TextView tv_weather_humidity_level;
-    private ContextMenuDialogFragment mMenuDialogFragment;
+
     private String currentCity;
     private List<TextView> weatherTextList;
     private WeatherSearchQuery queryLive;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,27 +87,29 @@ public class MainActivity extends AppCompatActivity implements
         //请求权限
         PermissionUtil.CheckAndRequestPermission(this, permissions, 100);
 
-        initNavigationUpdataWeather();
+        initNavigationAndWeather();
         initToolBar();
         initFragment();
-        initMenuFragment();
 
-        //开启事务，默认加载的是WayToAnywhereFragment
-        showTaskListFragment();
-
+        showSmartFragment();
     }
 
     private void initToolBar() {
         drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
         tb_global = (Toolbar) findViewById(R.id.tb_global);
+        tb_global.setNavigationIcon(R.drawable.ic_menu);
         setSupportActionBar(tb_global);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer_layout, tb_global, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer_layout.addDrawerListener(toggle);
-        toggle.syncState();
+
+        tb_global.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer_layout.openDrawer(GravityCompat.START);
+            }
+        });
+
     }
 
-    private void initNavigationUpdataWeather() {
+    private void initNavigationAndWeather() {
         NavigationView navigation_view = (NavigationView) findViewById(R.id.navigation_view);
         navigation_view.setNavigationItemSelectedListener(this);
         findIdAndRefreshWeather(navigation_view);
@@ -119,56 +117,43 @@ public class MainActivity extends AppCompatActivity implements
 
     private void initFragment() {
         fragmentManager = getSupportFragmentManager();
+        smartFragment = new SmartFragment();
         wayToAnywhereFragment = new WayToAnywhereFragment();
         readFragment = new ReadFragment();
         taskListFragment = new TaskListFragment();
         aboutFragment = new AboutFragment();
         fragmentList = new ArrayList<>();
-
-        fragmentList.add(wayToAnywhereFragment);
-        fragmentList.add(readFragment);
-        fragmentList.add(taskListFragment);
-        fragmentList.add(aboutFragment);
-
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        for (Fragment fragment
-                : fragmentList) {
-            transaction.add(R.id.ll_content_main, fragment);
-        }
-        transaction.commit();
     }
 
 
-    private void showThisFragmentHideOthers(Fragment showFragment) {
-        FragmentTransaction t = fragmentManager.beginTransaction();
-        for (Fragment fragment :
-                fragmentList) {
-            if (fragment == showFragment) {
-                t.show(fragment);
-            } else {
-                t.hide(fragment);
-            }
-        }
-        t.commit();
+    private void replaceThisFragment(Fragment showFragment) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.ll_content_main, showFragment)
+                .commit();
+    }
+
+    private void showSmartFragment() {
+        replaceThisFragment(smartFragment);
+        tb_global.setTitle("智能首页");
     }
 
     private void showTaskListFragment() {
-        showThisFragmentHideOthers(taskListFragment);
+        replaceThisFragment(taskListFragment);
         tb_global.setTitle("清单");
     }
 
     private void showAboutFragment() {
-        showThisFragmentHideOthers(aboutFragment);
+        replaceThisFragment(aboutFragment);
         tb_global.setTitle("设置");
     }
 
     private void showReadFragment() {
-        showThisFragmentHideOthers(readFragment);
+        replaceThisFragment(readFragment);
         tb_global.setTitle("文件");
     }
 
     private void showWayToAnywhereFragment() {
-        showThisFragmentHideOthers(wayToAnywhereFragment);
+        replaceThisFragment(wayToAnywhereFragment);
         tb_global.setTitle("路线");
     }
 
@@ -193,27 +178,6 @@ public class MainActivity extends AppCompatActivity implements
                 .show();
     }
 
-    private void initMenuFragment() {
-        MenuParams menuParams = new MenuParams();
-        menuParams.setActionBarSize((int) getResources().getDimension(R.dimen.tool_bar_height));
-        menuParams.setMenuObjects(getMenuObjects());
-        menuParams.setClosableOutside(true);
-        mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams);
-        mMenuDialogFragment.setItemClickListener(this);
-//        mMenuDialogFragment.setItemLongClickListener(this);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.context_menu:
-                if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
-                    mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
-                }
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -236,22 +200,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onMenuItemClick(View clickedView, int position) {
-        switch (position) {
-            case 1:
-                showWayToAnywhereFragment();
-                break;
-            case 2:
-                showReadFragment();
-                break;
-            case 3:
-                showTaskListFragment();
-                break;
-        }
-    }
-
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
@@ -266,33 +214,30 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    private List<MenuObject> getMenuObjects() {
-        List<MenuObject> menuObjects = new ArrayList<>();
-
-        MenuObject close = new MenuObject();
-        close.setResource(R.drawable.bn_cancel);
-
-        MenuObject way = new MenuObject("路线");
-        way.setResource(R.drawable.ic_item_way);
-
-        MenuObject reader = new MenuObject("文件");
-        reader.setResource(R.drawable.ic_nav_item_reader);
-
-        MenuObject blog = new MenuObject("清单");
-        blog.setResource(R.drawable.ic_nav_item_blog);
-
-
-        menuObjects.add(close);
-        menuObjects.add(way);
-        menuObjects.add(reader);
-        menuObjects.add(blog);
-        return menuObjects;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.menu_index:
+                showSmartFragment();
+                break;
+            case R.id.menu_way:
+                showWayToAnywhereFragment();
+                break;
+            case R.id.menu_read:
+                showReadFragment();
+                break;
+            case R.id.menu_list:
+                showTaskListFragment();
+                break;
+        }
         return true;
     }
 

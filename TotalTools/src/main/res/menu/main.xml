@@ -5,15 +5,15 @@
             <item
                 android:id="@+id/item_way"
                 android:icon="@mipmap/ic_item_way"
-                android:title="路线" />
+                android:title="@string/way"/>
             <item
                 android:id="@+id/item_read"
                 android:icon="@mipmap/ic_nav_item_reader"
-                android:title="阅读" />
+                android:title="@string/read"/>
             <item
                 android:id="@+id/item_list"
                 android:icon="@mipmap/ic_nav_item_blog"
-                android:title="清单" />
+                android:title="@string/list"/>
         </menu>
     </item>
     <item android:title="系统">
@@ -21,11 +21,11 @@
             <item
                 android:id="@+id/item_about"
                 android:icon="@mipmap/ic_nav_item_setting"
-                android:title="设置" />
+                android:title="@string/setting"/>
             <item
                 android:id="@+id/item_exit"
                 android:icon="@mipmap/ic_nav_item_exit"
-                android:title="退出" />
+                android:title="@string/exit"/>
         </menu>
 
     </item>

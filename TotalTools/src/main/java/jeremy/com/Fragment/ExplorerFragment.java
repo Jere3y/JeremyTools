@@ -102,6 +102,7 @@ public class ExplorerFragment extends Fragment {
         return view;
     }
 
+
     @Override
     public void onPause() {
         super.onPause();

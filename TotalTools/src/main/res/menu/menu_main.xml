@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
         android:id="@+id/context_menu"
         android:icon="@drawable/bn_menu"
-        android:title="menu"
         android:orderInCategory="100"
-        app:showAsAction="always" />
+        android:title="menu"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/menu_index"
+                android:icon="@drawable/ic_item_index"
+                android:title="@string/index"/>
+            <item
+                android:id="@+id/menu_way"
+                android:icon="@mipmap/ic_item_way"
+                android:title="@string/way"/>
+            <item
+                android:id="@+id/menu_read"
+                android:icon="@mipmap/ic_nav_item_reader"
+                android:title="@string/read"/>
+            <item
+                android:id="@+id/menu_list"
+                android:icon="@mipmap/ic_nav_item_blog"
+                android:title="@string/list"/>
+        </menu>
+    </item>
+
+
 </menu>

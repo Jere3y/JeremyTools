@@ -28,13 +28,21 @@ public class CreateNewListActivity extends AppCompatActivity {
         tb_create_list.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishAndPostResult();
+                saveList();
+                finish();
             }
         });
     }
 
-    private void finishAndPostResult() {
-        setResult(CREATE_LIST_COMPLETE,mIntent);
-        finish();
+    @Override
+    public void onBackPressed() {
+        saveList();
+        super.onBackPressed();
+    }
+
+    private void saveList() {
+
+
+
     }
 }

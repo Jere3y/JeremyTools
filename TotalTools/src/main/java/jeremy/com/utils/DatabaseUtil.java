@@ -31,21 +31,32 @@ public class DatabaseUtil {
     public static final String DATA1 = "data1";
     public static final String DATA2 = "data2";
 
-    static final String CREATE_TABLE_1 = "create table book_info_tbl\n" +
+    //第三个表
+    public static final String TASK_LIST_TBL = "task_list_tbl";
+    //第二个表列名
+    public static final String CREATE_TIME = "create_time";
+    public static final String LIST_CONTENT = "list_content";
+
+    public static final String CREATE_TABLE_1 = "create table book_info_tbl\n" +
             "(\n" +
             "_id integer primary key autoincrement,\n" +
             "book_name varchar(60) unique,\n" +
             "pre_start_position int,\n" +
             "pre_end_position int\n" +
             ");";
-    static final String CREATE_TABLE_2 = "create table book_mark_tbl\n" +
+    public static final String CREATE_TABLE_2 = "create table book_mark_tbl\n" +
             "(\n" +
             "_id integer primary key autoincrement,\n" +
             "book_id int,\n" +
             "data1 int,\n" +
             "data2 int\n" +
             ");";
-
+    public static final String CREATE_LIST_TABLE = "create table task_list_tbl\n" +
+            "(\n" +
+            "_id integer primary key autoincrement,\n" +
+            "create_time varchar(30),\n" +
+            "list_content text,\n" +
+            ");";
     /**
      * SQLiteDatabase实例获取
      *

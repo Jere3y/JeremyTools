@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,9 +26,25 @@ public class ReadView extends View {
     private int[] position = new int[]{0, 0};
     private int width;
     private int height;
+    private Context context;
+
+    // TODO: 2017/3/31 0031 view 需要重写满足目录需求
+    public ReadView(Context context) {
+        super(context);
+        this.context = context;
+    }
+
+    public ReadView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+    }
 
     public ReadView(Context context, String path, int[] position) {
         super(context);
+        init(path, position);
+    }
+
+    public void init(String path, int[] position) {
         int font_size = SpUtil.getInt(context, SpUtil.FONT_SIZE, 60);
         Log.i(TAG, "font_size" + font_size);
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -44,6 +62,7 @@ public class ReadView extends View {
         } catch (Exception e) {
         }
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {

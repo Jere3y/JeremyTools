@@ -15,7 +15,7 @@ import com.amap.api.services.route.BusRouteResult;
 import java.util.List;
 
 import jeremy.com.R;
-import jeremy.com.activity.BusRouteDetailActivity;
+import jeremy.com.routeway.BusRouteDetailActivity;
 import jeremy.com.utils.AMapUtil;
 
 /**

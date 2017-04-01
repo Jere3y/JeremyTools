@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
 
 import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import jeremy.com.R;
 import jeremy.com.utils.DatabaseUtil;
 import jeremy.com.view.ReadView;
 
@@ -21,21 +20,23 @@ import jeremy.com.view.ReadView;
 public class ReadActivity extends Activity {
     private final String TAG = "ReadActivity";
 
-    private ReadView readView;
-    private int[] prePosition;
-
+    private int[] prePosition = {0,0};
 
     private String path;
     //保存任务Timer
     private Timer timer;
     //保存进度延迟
-    private long period;
+    private long period = 45000;
+    private ReadView read_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_read);
+        read_view = (ReadView) findViewById(R.id.read_view);
+
         File dir = null;
         Uri fileUri = getIntent().getData();
         if (fileUri != null) {
@@ -44,13 +45,12 @@ public class ReadActivity extends Activity {
         }
 
         dir = new File(path);
-        readView = null;
+
         if (dir != null) {
-            readView = new ReadView(this, path, prePosition);
+            read_view.init(path, prePosition);
         } else {
             finish();
         }
-        setContentView(readView);
         timer = new Timer();
     }
 
@@ -66,7 +66,7 @@ public class ReadActivity extends Activity {
             public void run() {
                 saveState();
             }
-        }, 1000, 45 * 1000);
+        }, 1000, period);
         Log.i(TAG, "onResume: ");
     }
 
@@ -86,7 +86,7 @@ public class ReadActivity extends Activity {
 
 
     private void saveState() {
-        int[] position = readView.getPosition();
+        int[] position = read_view.getPosition();
         DatabaseUtil.updatePosition(this, position, path);
     }
 }
