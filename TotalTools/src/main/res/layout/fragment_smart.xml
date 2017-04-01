@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            style="@style/smart_title"
+            android:text="今天是3月30日,星期四："/>
+
+        <TextView
+            style="@style/smart_body"
+            android:text="今日天气：晴，20℃-15℃"/>
+
+        <TextView
+            style="@style/smart_body"
+            android:text="今天阳光明媚，天气晴朗,祝你拥有快乐的一天"/>
+
+    </LinearLayout>
+
+    <include layout="@layout/split_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            style="@style/smart_title"
+            android:text="待完成任务："/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"/>
+
+            <TextView
+                style="@style/smart_body"
+                android:text="修复bug"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"/>
+
+            <TextView
+                style="@style/smart_body"
+                android:text="改善性能"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"/>
+
+            <TextView
+                style="@style/smart_body"
+                android:text="代码重构"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <include layout="@layout/split_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            style="@style/smart_title"
+            android:text="最近浏览："/>
+
+        <TextView
+            style="@style/smart_body"
+            android:text="倚天屠龙记.txt"/>
+
+        <TextView
+            style="@style/smart_body"
+            android:text="MainActivity.java"/>
+    </LinearLayout>
+
+    <include layout="@layout/split_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            style="@style/smart_title"
+            android:text="道路情况："/>
+
+        <TextView
+            style="@style/smart_body"
+            android:text="道路顺畅，大约20分钟可已到达公司"/>
+    </LinearLayout>
+</LinearLayout>

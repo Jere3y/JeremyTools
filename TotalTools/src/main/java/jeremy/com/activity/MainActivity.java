@@ -12,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,6 +36,7 @@ import jeremy.com.Fragment.SmartFragment;
 import jeremy.com.Fragment.TaskListFragment;
 import jeremy.com.Fragment.WayToAnywhereFragment;
 import jeremy.com.R;
+import jeremy.com.utils.LogUtil;
 import jeremy.com.utils.PermissionUtil;
 import jeremy.com.utils.SpUtil;
 
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements
         initToolBar();
         initFragment();
 
-        showSmartFragment();
+        showTaskListFragment();
     }
 
     private void initToolBar() {
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements
         tb_global.setTitle("路线");
     }
 
-    private void showExitDialog() {
+    private void showExitDiaLogUtil() {
         new AlertDialog.Builder(this)
                 .setIcon(R.mipmap.ic_nav_item_exit)
                 .setTitle("真的要退出吗？")
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements
                 })
                 .setPositiveButton("退出啦", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface diaLogUtil, int which) {
                         finish();
                     }
                 })
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements
         } else if (itemId == R.id.item_about) {
             showAboutFragment();
         } else if (itemId == R.id.item_exit) {
-            showExitDialog();
+            showExitDiaLogUtil();
         }
 
 
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements
                 if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
                     drawer_layout.closeDrawer(GravityCompat.START);
                 } else {
-                    showExitDialog();
+                    showExitDiaLogUtil();
                 }
                 break;
         }
@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements
      */
     @Override
     public void onWeatherLiveSearched(LocalWeatherLiveResult weatherLiveResult, int rCode) {
-        Log.d(TAG, "查询实时天气成功的回调:" + rCode);
+        LogUtil.d(TAG, "查询实时天气成功的回调:" + rCode);
         if (rCode == 1000) {
             if (weatherLiveResult != null && weatherLiveResult.getLiveResult() != null) {
                 LocalWeatherLive weatherlive = weatherLiveResult.getLiveResult();
@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements
      */
     @Override
     public void onWeatherForecastSearched(LocalWeatherForecastResult localWeatherForecastResult, int rCode) {
-        Log.d(TAG, "预报天气的回调: " + rCode);
+        LogUtil.d(TAG, "预报天气的回调: " + rCode);
         if (1000 == rCode) {
             if (localWeatherForecastResult != null && localWeatherForecastResult.getForecastResult() != null) {
                 LocalWeatherForecast forecastResult = localWeatherForecastResult.getForecastResult();

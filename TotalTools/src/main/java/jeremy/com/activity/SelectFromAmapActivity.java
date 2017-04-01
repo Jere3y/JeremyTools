@@ -6,7 +6,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -24,6 +23,7 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MyLocationStyle;
 
 import jeremy.com.R;
+import jeremy.com.utils.LogUtil;
 import jeremy.com.utils.SpUtil;
 
 /**
@@ -76,7 +76,7 @@ public class SelectFromAmapActivity extends Activity implements LocationSource, 
         rect = new Rect();
         mIntent = getIntent();
         int id = mIntent.getIntExtra("id", 0);
-        Log.d(TAG, "id: " + id);
+        LogUtil.d(TAG, "id: " + id);
 
     }
 
@@ -126,7 +126,7 @@ public class SelectFromAmapActivity extends Activity implements LocationSource, 
                 mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
-                Log.e("AmapErr", errText);
+                LogUtil.e("AmapErr", errText);
             }
         }
     }
@@ -141,7 +141,7 @@ public class SelectFromAmapActivity extends Activity implements LocationSource, 
         int y = (rect.bottom + rect.top) / 2 - globalOffset.y;
 
         LatLng latLng = aMap.getProjection().fromScreenLocation(new Point(x, y));
-        Log.d(TAG, "latLng: " + latLng);
+        LogUtil.d(TAG, "latLng: " + latLng);
         mIntent.putExtra("latitude", latLng.latitude);
         mIntent.putExtra("longitude", latLng.longitude);
         setResult(RESULT_CODE, mIntent);

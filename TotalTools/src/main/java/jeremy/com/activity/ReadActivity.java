@@ -3,7 +3,6 @@ package jeremy.com.activity;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.io.File;
 import java.util.Timer;
@@ -11,6 +10,7 @@ import java.util.TimerTask;
 
 import jeremy.com.R;
 import jeremy.com.utils.DatabaseUtil;
+import jeremy.com.utils.LogUtil;
 import jeremy.com.view.ReadView;
 
 /**
@@ -67,12 +67,12 @@ public class ReadActivity extends Activity {
                 saveState();
             }
         }, 1000, period);
-        Log.i(TAG, "onResume: ");
+        LogUtil.i(TAG, "onResume: ");
     }
 
     @Override
     protected void onPause() {
-        Log.i(TAG, "onPause: ");
+        LogUtil.i(TAG, "onPause: ");
         saveState();
         timer.cancel();
         super.onPause();
@@ -80,7 +80,7 @@ public class ReadActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        Log.i(TAG, "onDestroy: ");
+        LogUtil.i(TAG, "onDestroy: ");
         super.onDestroy();
     }
 

@@ -8,7 +8,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +26,7 @@ import com.dd.CircularProgressButton;
 
 import jeremy.com.R;
 import jeremy.com.adapter.BusResultRecyclerAdapter;
+import jeremy.com.utils.LogUtil;
 import jeremy.com.utils.SpUtil;
 import jeremy.com.utils.ToastUtil;
 
@@ -138,7 +138,7 @@ public class LocationFragment extends Fragment implements RouteSearch.OnRouteSea
      * 开始定位
      */
     private void findMyLocation() {
-        Log.i(TAG, "开始定位: 150");
+        LogUtil.i(TAG, "开始定位: 150");
         tv_show_location.setText("刷新位置中...");
         if (mLocationClient == null) {
 
@@ -171,7 +171,7 @@ public class LocationFragment extends Fragment implements RouteSearch.OnRouteSea
      */
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
-        Log.d(TAG, "定位回调：" + amapLocation.getErrorCode());
+        LogUtil.d(TAG, "定位回调：" + amapLocation.getErrorCode());
         if (amapLocation != null) {
             if (amapLocation.getErrorCode() == 0) {
                 //获取纬度
@@ -189,7 +189,7 @@ public class LocationFragment extends Fragment implements RouteSearch.OnRouteSea
                 tv_show_location.setText(currentDistrict + currentStreet + currentStreetNum);
                 SpUtil.putString(getContext(), SpUtil.CURRENT_CITY, currentCity);
                 from = new LatLonPoint(currentLatitude, currentLongitude);
-                Log.d("定位成功", "from:" + from);
+                LogUtil.d("定位成功", "from:" + from);
                 //amapLocation.getAccuracy();//获取精度信息
                 //amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
                 //amapLocation.getCountry();//国家信息
@@ -200,7 +200,7 @@ public class LocationFragment extends Fragment implements RouteSearch.OnRouteSea
                 //amapLocation.getBuildingId();//获取当前室内定位的建筑物Id
                 //amapLocation.getFloor();//获取当前室内定位的楼层
             } else {
-                Log.e("AmapError", "location Error, ErrCode:"
+                LogUtil.e("AmapError", "location Error, ErrCode:"
                         + amapLocation.getErrorCode() + ", errInfo:"
                         + amapLocation.getErrorInfo());
             }
@@ -276,7 +276,7 @@ public class LocationFragment extends Fragment implements RouteSearch.OnRouteSea
      */
     @Override
     public void onBusRouteSearched(BusRouteResult result, int rCode) {
-        Log.d(TAG, "onBusRouteSearched: rCode" + rCode);
+        LogUtil.d(TAG, "onBusRouteSearched: rCode" + rCode);
         if (1000 == rCode) {
             if (result != null && result.getPaths() != null) {
                 if (result.getPaths().size() > 0) {

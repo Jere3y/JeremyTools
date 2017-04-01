@@ -179,7 +179,7 @@ public class CodeView extends WebView {
         /////////////////
         //// Load File
 //        try {
-//            Log.e("PATH----->", content);
+//            log.e("PATH----->", content);
 //            this.loadUrl(dir.toURI().toURL().toString());
         this.loadDataWithBaseURL(STYLE_DIR, HTMLcode.HTMLHEAD + content + HTMLcode.HTMLTAIL, "text/html", null, null);
 //        } catch (MalformedURLException e) {

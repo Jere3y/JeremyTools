@@ -3,7 +3,6 @@ package jeremy.com.activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -12,6 +11,7 @@ import android.view.WindowManager;
 import java.io.File;
 
 import jeremy.com.R;
+import jeremy.com.utils.LogUtil;
 import jeremy.com.view.CodeView;
 
 /**
@@ -34,7 +34,7 @@ public class CodeActivity extends AppCompatActivity {
 
         File dir = null;
         Uri fileUri = getIntent().getData();
-        Log.i(TAG, "代码源文件uri： " + fileUri);
+        LogUtil.i(TAG, "代码源文件uri： " + fileUri);
         if (fileUri != null) {
             dir = new File(fileUri.getPath());
         }
@@ -42,7 +42,7 @@ public class CodeActivity extends AppCompatActivity {
         if (dir != null) {
             codeView.setDirSource(dir);
         } else {
-            Log.e(TAG, "文件为空！");
+            LogUtil.e(TAG, "文件为空！");
             finish();
         }
     }

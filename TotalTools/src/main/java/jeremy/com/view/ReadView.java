@@ -7,12 +7,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
 import jeremy.com.R;
+import jeremy.com.utils.LogUtil;
 import jeremy.com.utils.SpUtil;
 
 
@@ -46,16 +46,16 @@ public class ReadView extends View {
 
     public void init(String path, int[] position) {
         int font_size = SpUtil.getInt(context, SpUtil.FONT_SIZE, 60);
-        Log.i(TAG, "font_size" + font_size);
+        LogUtil.i(TAG, "font_size" + font_size);
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         width = manager.getDefaultDisplay().getWidth();
         height = manager.getDefaultDisplay().getHeight();
-        Log.i(width + ":宽", height + "：高");
+        LogUtil.i(width + ":宽", height + "：高");
         mCurrentPageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCurrentPageCanvas = new Canvas(mCurrentPageBitmap);
         pagefactory = new PageFactory(context, width, height, font_size);
         try {
-            Log.i("start" + position[0], "end" + position[1]);
+            LogUtil.i("start" + position[0], "end" + position[1]);
             pagefactory.setBgBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.bg));
             pagefactory.openBook(path, position);
             pagefactory.onDraw(mCurrentPageCanvas);

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import com.amap.api.services.geocoder.RegeocodeResult;
 
 import jeremy.com.R;
 import jeremy.com.activity.SelectFromAmapActivity;
+import jeremy.com.utils.LogUtil;
 import jeremy.com.utils.SpUtil;
 
 /**
@@ -94,7 +94,7 @@ public class AboutWayFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
         if (i == 1000) {
-            Log.d(TAG, "解析地址成功！！！");
+            LogUtil.d(TAG, "解析地址成功！！！");
             address = regeocodeResult.getRegeocodeAddress().getFormatAddress();
             switch (id) {
                 case R.id.tv_set_home_address:
