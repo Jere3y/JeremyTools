@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -86,12 +87,12 @@ public class RecyclerExplorerAdapter extends RecyclerView.Adapter<RecyclerExplor
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
-        TextView iv_file_icon;
+        ImageView iv_file_icon;
         TextView tv_file_name;
 
         public MyHolder(View itemView) {
             super(itemView);
-            iv_file_icon = (TextView) itemView.findViewById(R.id.iv_file_icon);
+            iv_file_icon = (ImageView) itemView.findViewById(R.id.iv_file_icon);
             tv_file_name = (TextView) itemView.findViewById(R.id.tv_file_name);
         }
     }

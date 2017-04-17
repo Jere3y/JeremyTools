@@ -5,7 +5,7 @@
                                         android:orientation="vertical">
 
 
-    <jeremy.com.view.ReadView
+    <jeremy.com.view.widget.ReadView
         android:id="@+id/read_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

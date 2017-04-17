@@ -1,1 +1,1 @@
-include ':TotalTools', ':progress-button', ':InitActivity'
+include ':TotalTools', ':InitActivity'
