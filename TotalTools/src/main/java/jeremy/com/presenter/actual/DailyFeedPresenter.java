@@ -14,17 +14,17 @@ import jeremy.com.R;
 import jeremy.com.adapter.DailyFeedAdapter;
 import jeremy.com.model.daily.DailyTimeLine;
 import jeremy.com.presenter.BasePresenter;
-import jeremy.com.view.iview.DailyFeedView;
+import jeremy.com.view.iview.IDailyFeedView;
 
 /**
  * Created by Werb on 2016/9/6.
  * Werb is Wanbo.
  * Contact Me : werbhelius@gmail.com
  */
-public class DailyFeedPresenter extends BasePresenter<DailyFeedView> {
+public class DailyFeedPresenter extends BasePresenter<IDailyFeedView> {
 
     private Context context;
-    private DailyFeedView dailyFeedView;
+    private IDailyFeedView dailyFeedView;
     private RecyclerView mRecyclerView;
     private DailyTimeLine timeLine;
     private DailyFeedAdapter adapter;
@@ -64,14 +64,14 @@ public class DailyFeedPresenter extends BasePresenter<DailyFeedView> {
         }
     }
 
-    private void disPlayDailyTimeLine(Context context, DailyTimeLine dailyTimeLine, RecyclerView recyclerView, DailyFeedView dailyFeedView) {
+    private void disPlayDailyTimeLine(Context context, DailyTimeLine dailyTimeLine, RecyclerView recyclerView, IDailyFeedView IDailyFeedView) {
         if (dailyTimeLine.getResponse().getLast_key() != null) {
             next_pager = dailyTimeLine.getResponse().getLast_key();
             has_more = dailyTimeLine.getResponse().getHas_more();
         }
         if (isLoadMore) {
             if (dailyTimeLine.getResponse().getOptions() == null) {
-                dailyFeedView.setDataRefresh(false);
+                IDailyFeedView.setDataRefresh(false);
                 return;
             } else {
                 timeLine.getResponse().getOptions().addAll(dailyTimeLine.getResponse().getOptions());
@@ -82,7 +82,7 @@ public class DailyFeedPresenter extends BasePresenter<DailyFeedView> {
             adapter = new DailyFeedAdapter(context, timeLine.getResponse().getOptions());
             recyclerView.setAdapter(adapter);
         }
-        dailyFeedView.setDataRefresh(false);
+        IDailyFeedView.setDataRefresh(false);
     }
 
     public void scrollRecycleView() {

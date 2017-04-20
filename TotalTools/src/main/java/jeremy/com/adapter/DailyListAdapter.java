@@ -25,8 +25,8 @@ import jeremy.com.model.daily.HeadLine;
 import jeremy.com.model.daily.Response;
 import jeremy.com.model.zhihu.TopStories;
 import jeremy.com.utils.ScreenUtil;
-import jeremy.com.view.activity.DailyFeedActivity;
 import jeremy.com.view.activity.GankWebActivity;
+import jeremy.com.view.activity.IDailyFeedActivity;
 import jeremy.com.view.widget.TopStoriesViewPager;
 
 
@@ -364,7 +364,7 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 card_layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = DailyFeedActivity.newIntent(context, daily.getPost().getId(), daily.getPost().getDescription(), daily.getPost().getTitle(), daily.getImage());
+                        Intent intent = IDailyFeedActivity.newIntent(context, daily.getPost().getId(), daily.getPost().getDescription(), daily.getPost().getTitle(), daily.getImage());
                         context.startActivity(intent);
                     }
                 });

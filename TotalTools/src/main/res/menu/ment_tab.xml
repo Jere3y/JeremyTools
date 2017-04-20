@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_way"
+        android:icon="@drawable/ic_way"
+        android:title="路线"/>
+    <item
+        android:id="@+id/item_read"
+        android:icon="@drawable/ic_files"
+        android:title="文件"/>
+    <item
+        android:id="@+id/item_list"
+        android:icon="@drawable/ic_list"
+        android:title="清单"/>
+    <item
+        android:id="@+id/item_knowledge"
+        android:icon="@drawable/ic_knowledge"
+        android:title="干货"/>
+    <item
+        android:id="@+id/item_news"
+        android:icon="@drawable/ic_news"
+        android:title="新闻"/>
+</menu>

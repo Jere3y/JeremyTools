@@ -10,9 +10,9 @@ import butterknife.BindView;
 import jeremy.com.R;
 import jeremy.com.presenter.actual.DailyFgPresenter;
 import jeremy.com.view.BaseFragment;
-import jeremy.com.view.iview.DailyFragmentView;
+import jeremy.com.view.iview.IDailyFragmentView;
 
-public class DailyFragment extends BaseFragment<DailyFragmentView, DailyFgPresenter> implements DailyFragmentView {
+public class IDailyFragment extends BaseFragment<IDailyFragmentView, DailyFgPresenter> implements IDailyFragmentView {
 
     private LinearLayoutManager mLayoutManager;
     @BindView(R.id.content_list)

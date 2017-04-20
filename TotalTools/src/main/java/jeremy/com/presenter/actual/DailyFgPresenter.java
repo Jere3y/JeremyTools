@@ -14,13 +14,13 @@ import jeremy.com.R;
 import jeremy.com.adapter.DailyListAdapter;
 import jeremy.com.model.daily.DailyTimeLine;
 import jeremy.com.presenter.BasePresenter;
-import jeremy.com.view.iview.DailyFragmentView;
+import jeremy.com.view.iview.IDailyFragmentView;
 
 
-public class DailyFgPresenter extends BasePresenter<DailyFragmentView> {
+public class DailyFgPresenter extends BasePresenter<IDailyFragmentView> {
 
     private Context context;
-    private DailyFragmentView dailyFgView;
+    private IDailyFragmentView dailyFgView;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager layoutManager;
     private DailyTimeLine timeLine;
@@ -61,7 +61,7 @@ public class DailyFgPresenter extends BasePresenter<DailyFragmentView> {
         }
     }
 
-    private void disPlayDailyTimeLine(Context context, DailyTimeLine dailyTimeLine, RecyclerView recyclerView, DailyFragmentView dailyFgView) {
+    private void disPlayDailyTimeLine(Context context, DailyTimeLine dailyTimeLine, RecyclerView recyclerView, IDailyFragmentView dailyFgView) {
         if (dailyTimeLine.getResponse().getLast_key() != null) {
             next_pager = dailyTimeLine.getResponse().getLast_key();
         }

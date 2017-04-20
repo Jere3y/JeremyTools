@@ -1,13 +1,13 @@
 package jeremy.com.view.iview;
 
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-public interface DailyFragmentView {
+public interface IDailyFeedView {
 
     void setDataRefresh(Boolean refresh);
 
     RecyclerView getRecyclerView();
 
-    LinearLayoutManager getLayoutManager();
+    GridLayoutManager getLayoutManager();
 }

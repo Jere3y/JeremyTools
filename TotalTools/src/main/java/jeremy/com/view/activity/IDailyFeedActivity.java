@@ -14,10 +14,10 @@ import butterknife.BindView;
 import jeremy.com.R;
 import jeremy.com.presenter.actual.DailyFeedPresenter;
 import jeremy.com.view.BaseActivity;
-import jeremy.com.view.iview.DailyFeedView;
+import jeremy.com.view.iview.IDailyFeedView;
 
 
-public class DailyFeedActivity extends BaseActivity<DailyFeedView, DailyFeedPresenter> implements DailyFeedView {
+public class IDailyFeedActivity extends BaseActivity<IDailyFeedView, DailyFeedPresenter> implements IDailyFeedView {
 
     private static final String FEED_ID = "feed_id";
     private static final String FEED_DESC = "feed_desc";
@@ -60,11 +60,11 @@ public class DailyFeedActivity extends BaseActivity<DailyFeedView, DailyFeedPres
     }
 
     public static Intent newIntent(Context context, String id, String desc, String title, String img) {
-        Intent intent = new Intent(context, DailyFeedActivity.class);
-        intent.putExtra(DailyFeedActivity.FEED_ID, id);
-        intent.putExtra(DailyFeedActivity.FEED_DESC, desc);
-        intent.putExtra(DailyFeedActivity.FEED_TITLE, title);
-        intent.putExtra(DailyFeedActivity.FEED_IMG, img);
+        Intent intent = new Intent(context, IDailyFeedActivity.class);
+        intent.putExtra(IDailyFeedActivity.FEED_ID, id);
+        intent.putExtra(IDailyFeedActivity.FEED_DESC, desc);
+        intent.putExtra(IDailyFeedActivity.FEED_TITLE, title);
+        intent.putExtra(IDailyFeedActivity.FEED_IMG, img);
         return intent;
     }
 
